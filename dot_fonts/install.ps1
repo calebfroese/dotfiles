@@ -2,7 +2,7 @@
 param()
 
 $fontFiles = New-Object 'System.Collections.Generic.List[System.IO.FileInfo]'
-Get-ChildItem $PSScriptRoot -Filter "Fantasque:*" -Recurse | Foreach-Object {$fontFiles.Add($_)}
+Get-ChildItem $PSScriptRoot -Filter "Fantasque*" -Recurse | Foreach-Object {$fontFiles.Add($_)}
 
 $fonts = $null
 foreach ($fontFile in $fontFiles) {
