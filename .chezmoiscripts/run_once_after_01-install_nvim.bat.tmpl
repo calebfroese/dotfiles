@@ -1,4 +1,4 @@
 {{- if eq .chezmoi.os "windows" -}}
-choco install --yes neovim
+choco install --yes neovim mingw
 mklink /D "%userprofile%\AppData\Local\nvim" "%homepath%\.config\nvim"
 {{- end }}
