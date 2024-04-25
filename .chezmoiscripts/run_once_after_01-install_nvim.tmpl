@@ -1,0 +1,17 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/zsh
+
+brew install neovim
+
+{{- end }}
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/zsh
+
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux64.tar.gz
+
+{{- end }}
+{{- if eq .chezmoi.os "windows" -}}
+winget install Neovim.Neovim
+{{- end }}
