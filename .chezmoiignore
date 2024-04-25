@@ -1,6 +1,6 @@
 README.md
 .config/nvim/lazyvim.json
 
-{{- if (eq .chezmoi.os "windows") -}}
-
+{{- if (eq .chezmoi.os "darwin" "linux") -}}
+Appdata/
 {{- end }}
