@@ -1,4 +1,5 @@
 {{- if eq .chezmoi.os "windows" -}}
+REM mingw (gcc on windows) is required for https://github.com/nvim-treesitter/nvim-treesitter
 choco install --yes neovim mingw
 mklink /D "%userprofile%\AppData\Local\nvim" "%homepath%\.config\nvim"
 {{- end }}

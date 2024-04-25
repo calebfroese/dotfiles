@@ -1,0 +1,7 @@
+
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/zsh
+
+cp {{ .chezmoi.sourceDir }}/dot_fonts/* ~/Library/Fonts/
+
+{{- end }}
