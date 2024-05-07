@@ -23,6 +23,22 @@ if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
 fi
 
+# Define the file to modify
+FILE="$HOME/.zshrc"
+
+# Define the old and new theme settings
+OLD_THEME='ZSH_THEME="something"'
+NEW_THEME='ZSH_THEME="Powerlevel10k/powerlevel10k"'
+
+# Check if the old theme setting exists in the file
+if grep -q "$OLD_THEME" "$FILE"; then
+    # Perform the substitution
+    sed -i "s|$OLD_THEME|$NEW_THEME|" "$FILE"
+    echo "Theme changed to Powerlevel10k/powerlevel10k."
+else
+    echo "The original theme setting was not found. No changes made."
+fi
+
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
 ZSHRC_LINE="source ~/.caleb/.zshrc"
@@ -42,6 +58,22 @@ fi
 # Install Powerlevel10k (zsh theme)
 if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
+fi
+
+# Define the file to modify
+FILE="$HOME/.zshrc"
+
+# Define the old and new theme settings
+OLD_THEME='ZSH_THEME="something"'
+NEW_THEME='ZSH_THEME="Powerlevel10k/powerlevel10k"'
+
+# Check if the old theme setting exists in the file
+if grep -q "$OLD_THEME" "$FILE"; then
+    # Perform the substitution
+    sed -i "s|$OLD_THEME|$NEW_THEME|" "$FILE"
+    echo "Theme changed to Powerlevel10k/powerlevel10k."
+else
+    echo "The original theme setting was not found. No changes made."
 fi
 
 ZSHRC=$HOME/.zshrc
