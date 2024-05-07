@@ -1,0 +1,7 @@
+# Will be automatically sourced by .zshenv
+
+{{ if eq .chezmoi.os "linux" }}
+# For linux, make sure nvim is on the path
+export PATH="$PATH:/opt/nvim-linux64/bin"
+{{ end }}
+
