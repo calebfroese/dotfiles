@@ -25,6 +25,10 @@ if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
 fi
 
+if [ ! -f ~/.tmux/plugins/tpm ]; then
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 # Define the file to modify
 FILE="$HOME/.zshrc"
 
@@ -60,6 +64,10 @@ fi
 # Install Powerlevel10k (zsh theme)
 if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
+fi
+
+if [ ! -f ~/.tmux/plugins/tpm ]; then
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 # Define the file to modify
