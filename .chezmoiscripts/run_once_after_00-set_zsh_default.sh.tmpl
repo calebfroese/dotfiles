@@ -14,10 +14,14 @@ if test $(which $SHELL) != $(which zsh); then
 fi
 
 # Install oh-my-zsh
+if [ ! -f "$HOME/.oh-my-zsh" ]; then
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 # Install Powerlevel10k (zsh theme)
+if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
+fi
 
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
@@ -31,10 +35,14 @@ grep -qxF "$ZSHENV_LINE" "$ZSHENV" || echo "$ZSHENV_LINE" >> "$ZSHENV"
 #!/bin/sh
 
 # Install oh-my-zsh
+if [ ! -f "$HOME/.oh-my-zsh" ]; then
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 # Install Powerlevel10k (zsh theme)
+if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
+fi
 
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
