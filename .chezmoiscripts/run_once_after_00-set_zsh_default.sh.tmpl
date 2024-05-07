@@ -13,6 +13,12 @@ if test $(which $SHELL) != $(which zsh); then
   /bin/bash -c "$(chsh -s $(which zsh))"
 fi
 
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install Powerlevel10k (zsh theme)
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
+
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
 ZSHRC_LINE="source ~/.caleb/.zshrc"
@@ -23,6 +29,13 @@ grep -qxF "$ZSHENV_LINE" "$ZSHENV" || echo "$ZSHENV_LINE" >> "$ZSHENV"
 {{- end }}
 {{- if (eq .chezmoi.os "darwin") -}}
 #!/bin/sh
+
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install Powerlevel10k (zsh theme)
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
+
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
 ZSHRC_LINE="source ~/.caleb/.zshrc"
