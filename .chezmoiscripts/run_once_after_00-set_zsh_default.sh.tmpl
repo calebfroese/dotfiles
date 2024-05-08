@@ -47,11 +47,14 @@ fi
 
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
+ZPROFILE=$HOME/.zprofile
 ZSHRC_LINE="source ~/.caleb/.zshrc"
 ZSHENV_LINE="source ~/.caleb/.zshenv"
+ZPROFILE_LINE="source ~/.caleb/.zprofile"
 
 grep -qxF "$ZSHRC_LINE" "$ZSHRC" || echo "$ZSHRC_LINE" >> "$ZSHRC"
 grep -qxF "$ZSHENV_LINE" "$ZSHENV" || echo "$ZSHENV_LINE" >> "$ZSHENV"
+grep -qxF "$ZPROFILE_LINE" "$ZPROFILE" || echo "$ZPROFILE_LINE" >> "$ZPROFILE"
 {{- end }}
 {{- if (eq .chezmoi.os "darwin") -}}
 #!/bin/sh
@@ -88,9 +91,12 @@ fi
 
 ZSHRC=$HOME/.zshrc
 ZSHENV=$HOME/.zshenv
+ZPROFILE=$HOME/.zprofile
 ZSHRC_LINE="source ~/.caleb/.zshrc"
 ZSHENV_LINE="source ~/.caleb/.zshenv"
+ZPROFILE_LINE="source ~/.caleb/.zprofile"
 
 grep -qxF "$ZSHRC_LINE" "$ZSHRC" || echo "$ZSHRC_LINE" >> "$ZSHRC"
 grep -qxF "$ZSHENV_LINE" "$ZSHENV" || echo "$ZSHENV_LINE" >> "$ZSHENV"
+grep -qxF "$ZPROFILE_LINE" "$ZPROFILE" || echo "$ZPROFILE_LINE" >> "$ZPROFILE"
 {{- end }}
