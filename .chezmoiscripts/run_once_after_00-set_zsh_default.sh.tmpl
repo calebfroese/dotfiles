@@ -16,16 +16,16 @@ if test $(which $SHELL) != $(which zsh); then
 fi
 
 # Install oh-my-zsh
-if [ ! -f "$HOME/.oh-my-zsh" ]; then
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 # Install Powerlevel10k (zsh theme)
-if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
 fi
 
-if [ ! -f ~/.tmux/plugins/tpm ]; then
+if [ ! -d ~/.tmux/plugins/tpm ]; then
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
@@ -57,16 +57,16 @@ grep -qxF "$ZSHENV_LINE" "$ZSHENV" || echo "$ZSHENV_LINE" >> "$ZSHENV"
 #!/bin/sh
 
 # Install oh-my-zsh
-if [ ! -f "$HOME/.oh-my-zsh" ]; then
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
 # Install Powerlevel10k (zsh theme)
-if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k" ]; then
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/Powerlevel10k
 fi
 
-if [ ! -f ~/.tmux/plugins/tpm ]; then
+if [ ! -d ~/.tmux/plugins/tpm ]; then
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
