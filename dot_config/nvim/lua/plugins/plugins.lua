@@ -21,6 +21,10 @@ return {
         name = "Search",
         f = { "<cmd>FzfLua grep_project<cr>", "Grep (cwd)" },
       },
+      ["<leader>p"] = {
+        name = "Pane",
+        o = { "<cmd>Neotree reveal<cr>", "Reveal" },
+      },
       ["<leader>g"] = {
         name = "Git",
         b = { "<cmd>BlameToggle<cr>", "Blame" },
@@ -31,7 +35,7 @@ return {
         r = { "<cmd>FzfLua oldfiles<cr>", "Recent files" },
         n = { "<cmd>enew<cr>", "New File" },
       },
-    })    --
+    })
   end,
   opts = {
     plugins = {
@@ -156,7 +160,12 @@ return {
       },
       sections = {
         lualine_a = {'mode'},
-        lualine_c = {'filename'},
+        lualine_c = {
+          {
+          'filename',
+          path = 1,
+        },
+        },
         lualine_y = {'progress'},
         lualine_z = {'location'}
 
@@ -221,3 +230,4 @@ return {
   end
 },
 }
+
