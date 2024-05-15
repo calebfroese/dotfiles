@@ -14,4 +14,9 @@ sudo tar -C /opt -xzf nvim-linux64.tar.gz
 sudo apt update
 sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat -y
 
+# Bat link batcat -> batcat
+# See https://github.com/sharkdp/bat?tab=readme-ov-file#on-ubuntu-using-apt
+mkdir -p ~/.local/bin
+ln -s /usr/bin/batcat ~/.local/bin/bat
+
 {{- end }}
