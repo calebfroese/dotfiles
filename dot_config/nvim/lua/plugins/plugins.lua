@@ -19,7 +19,9 @@ return {
       },
       ["<leader>s"] = {
         name = "Search",
-        f = { "<cmd>FzfLua grep_project<cr>", "Grep (cwd)" },
+        f = { "<cmd>FzfLua grep_project<cr>", "Quick Search" },
+        s = { function() require("spectre").toggle() end, "Toggle Search" },
+        w = { function() require("spectre").open_visual({select_word=true}) end, "Search Current Word" },
       },
       ["<leader>p"] = {
         name = "Pane",
@@ -228,6 +230,12 @@ return {
   config = function()
     require("blame").setup()
   end
+},
+{
+  'nvim-pack/nvim-spectre',
+  dependencies = {
+    'nvim-lua/plenary.nvim'
+  },
 },
 }
 
