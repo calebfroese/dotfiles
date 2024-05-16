@@ -24,6 +24,11 @@ return {
     local defaults = require("cmp.config.default")()
     return {
       auto_brackets = {}, -- configure any filetype to auto add brackets
+      snippet = {
+        expand = function(args)
+          require('luasnip').lsp_expand(args.body)
+        end,
+      },
       completion = {
         completeopt = "menu,menuone,noinsert",
       },

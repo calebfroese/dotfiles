@@ -1,5 +1,6 @@
 return {
   { "echasnovski/mini.pairs",
+  event = "VeryLazy",
   config = function()
     require('mini.pairs').setup()
   end
@@ -10,7 +11,7 @@ return {
   event = "VeryLazy",
   config = function()
     vim.o.timeout = true
-    vim.o.timeoutlen = 0--300
+    vim.o.timeoutlen = 0
     require('which-key').register({
       ["<leader>"] = {
         name = "Leader",
@@ -145,6 +146,7 @@ return {
       "query",
       "regex",
       "tsx",
+      "terraform",
       "typescript",
       "vim",
       "yaml",
@@ -164,9 +166,9 @@ return {
         lualine_a = {'mode'},
         lualine_c = {
           {
-          'filename',
-          path = 1,
-        },
+            'filename',
+            path = 1,
+          },
         },
         lualine_y = {'progress'},
         lualine_z = {'location'}
@@ -177,6 +179,7 @@ return {
 },
 {
   "williamboman/mason.nvim",
+  event = "VeryLazy",
   dependencies = {
     "neovim/nvim-lspconfig",
     "williamboman/mason-lspconfig",
@@ -191,6 +194,7 @@ return {
         "gopls",
         "tsserver",
         "pyright",
+        "terraformls",
       },
     })
 
@@ -207,7 +211,8 @@ return {
   end
 },
 {
-  "tpope/vim-sleuth"
+  "tpope/vim-sleuth",
+  event = "VeryLazy",
 },
 {
   "Mofiqul/vscode.nvim",
@@ -217,25 +222,27 @@ return {
 },
 {
   "stevearc/conform.nvim",
+  event = "VeryLazy",
   config = function()
-    require("conform").setup({
---      formatters_by_ft = {
---        lua = { "stylua" },
---      },
-    })
+    require("conform").setup({})
   end
 },
 {
   "FabijanZulj/blame.nvim",
+  event = "VeryLazy",
   config = function()
     require("blame").setup()
   end
 },
 {
   'nvim-pack/nvim-spectre',
+  event = "VeryLazy",
   dependencies = {
     'nvim-lua/plenary.nvim'
   },
+},
+{
+  'L3MON4D3/LuaSnip',
 },
 }
 
