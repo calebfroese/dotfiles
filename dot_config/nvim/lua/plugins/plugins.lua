@@ -157,7 +157,7 @@ return {
   "nvim-lualine/lualine.nvim",
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   event = "VeryLazy",
-  opts = function(_, opts)
+  opts = function()
     return {
       options = {
         theme = 'auto'
@@ -216,7 +216,7 @@ return {
 },
 {
   "Mofiqul/vscode.nvim",
-  opts = function(_, opts)
+  opts = function()
     vim.cmd.colorscheme("vscode")
   end,
 },
