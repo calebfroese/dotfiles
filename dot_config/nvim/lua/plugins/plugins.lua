@@ -132,26 +132,34 @@ return {
 },
 {
   "nvim-treesitter/nvim-treesitter",
-  opts = {
-    ensure_installed = {
-      "bash",
-      "go",
-      "html",
-      "javascript",
-      "json",
-      "lua",
-      "markdown",
-      "markdown_inline",
-      "python",
-      "query",
-      "regex",
-      "tsx",
-      "terraform",
-      "typescript",
-      "vim",
-      "yaml",
-    },
-  },
+  build = ":TSUpdate",
+  config = function ()
+    local configs = require("nvim-treesitter.configs")
+
+    configs.setup({
+      sync_install = false,
+      highlight = { enable = true },
+      indent = { enable = true },  
+      ensure_installed = {
+        "bash",
+        "go",
+        "html",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "query",
+        "regex",
+        "tsx",
+        "terraform",
+        "typescript",
+        "vim",
+        "yaml",
+      },
+    })
+  end
 },
 {
   "nvim-lualine/lualine.nvim",
