@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/zsh
 
-brew install neovim ripgrep fd fzf lnav go bat
+brew install neovim ripgrep fd fzf lnav go bat jq luarocks cmake
 
 {{- end }}
 {{- if eq .chezmoi.os "linux" -}}
@@ -12,7 +12,7 @@ sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux64.tar.gz
 
 sudo apt update
-sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat -y
+sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake -y
 
 # Bat link batcat -> batcat
 # See https://github.com/sharkdp/bat?tab=readme-ov-file#on-ubuntu-using-apt
@@ -20,3 +20,7 @@ mkdir -p ~/.local/bin
 ln -s /usr/bin/batcat ~/.local/bin/bat
 
 {{- end }}
+
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+

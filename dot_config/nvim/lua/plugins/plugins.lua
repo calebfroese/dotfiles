@@ -16,6 +16,7 @@ return {
       ["<leader>"] = {
         name = "Leader",
         ["<leader>"] = { "<cmd>FzfLua buffers<cr>", "Open buffers" },
+        ["/"] = {  require('Comment.api').toggle.linewise.current, "Comment" },
         [":"] = { "<cmd>FzfLua command_history<cr>", "Command history" },
       },
       ["<leader>s"] = {
@@ -24,10 +25,27 @@ return {
         s = { function() require("spectre").toggle() end, "Toggle Search" },
         w = { function() require("spectre").open_visual({select_word=true}) end, "Search Current Word" },
       },
-      ["<leader>p"] = {
-        name = "Pane",
-        o = { "<cmd>Neotree reveal<cr>", "Reveal" },
-      },
+        ["<leader>o"] = {
+          name = "Code Actions",
+          o = { function() vim.lsp.buf.code_action() end, "Organize / Add Missing Imports" },
+          d = { function() vim.diagnostic.open_float() end, "LSP Diagnostic Window" },
+        },
+        ["<leader>p"] = {
+          name = "Pane",
+          o = { "<cmd>Neotree reveal<cr>", "Reveal" },
+          s = {
+            function()
+              vim.api.nvim_command('vsplit')
+              vim.api.nvim_command('bn')
+          end, "Split (cur right)" },
+          v = {
+            function()
+              vim.api.nvim_command('vsplit')
+              vim.api.nvim_command('wincmd l')
+              vim.api.nvim_command('bn')
+              vim.api.nvim_command('wincmd h')
+          end, "Split (cur left)" },
+        },
       ["<leader>g"] = {
         name = "Git",
         b = { "<cmd>BlameToggle<cr>", "Blame" },
@@ -249,8 +267,28 @@ return {
     'nvim-lua/plenary.nvim'
   },
 },
-{
-  'L3MON4D3/LuaSnip',
-},
+  {
+    'L3MON4D3/LuaSnip',
+    event = "VeryLazy",
+  },
+  {
+    'mfussenegger/nvim-lint',
+    event = "VeryLazy",
+    config = function()
+      require('lint').linters_by_ft = {
+        typescript = {'eslint_d',}
+      }
+    end
+  },
+  {
+    'mhartington/formatter.nvim',
+    event = "VeryLazy",
+  },
+  {
+    "numToStr/Comment.nvim",
+config = function()
+        require('Comment').setup()
+    end
+  },
 }
 
