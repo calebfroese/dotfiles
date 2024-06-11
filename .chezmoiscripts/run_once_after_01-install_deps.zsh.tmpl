@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/zsh
 
-brew install neovim ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed
+brew install neovim ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed node
 
 {{- end }}
 {{- if eq .chezmoi.os "linux" -}}
@@ -12,7 +12,7 @@ sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux64.tar.gz
 
 sudo apt update
-sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake -y
+sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake nodejs -y
 
 # Bat link batcat -> batcat
 # See https://github.com/sharkdp/bat?tab=readme-ov-file#on-ubuntu-using-apt
