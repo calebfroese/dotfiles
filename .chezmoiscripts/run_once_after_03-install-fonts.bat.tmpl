@@ -1,5 +1,0 @@
-{{- if eq .chezmoi.os "windows" -}}
-REM Fonts
-powershell -command "Set-ExecutionPolicy Unrestricted"
-powershell {{ .chezmoi.sourceDir }}/dot_fonts/install.ps1
-{{- end }}

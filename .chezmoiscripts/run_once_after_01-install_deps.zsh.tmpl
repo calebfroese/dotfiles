@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/zsh
 
-brew install neovim ripgrep fd fzf lnav go bat jq luarocks cmake
+brew install neovim ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed
 
 {{- end }}
 {{- if eq .chezmoi.os "linux" -}}
