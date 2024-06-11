@@ -19,5 +19,5 @@ alias gcp='git checkout . -p'
 alias gom='git commit'
 
 # Nvim
-alias n.='nvim .'
+alias nv='nvim'
 
