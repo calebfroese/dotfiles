@@ -83,7 +83,7 @@ NEW_THEME='ZSH_THEME="Powerlevel10k/powerlevel10k"'
 # Check if the old theme setting exists in the file
 if grep -q "$OLD_THEME" "$FILE"; then
     # Perform the substitution
-    sed -i "s|$OLD_THEME|$NEW_THEME|" "$FILE"
+    gsed -i "s|$OLD_THEME|$NEW_THEME|" "$FILE"
     echo "Theme changed to Powerlevel10k/powerlevel10k."
 else
     echo "The original theme setting was not found. No changes made."
