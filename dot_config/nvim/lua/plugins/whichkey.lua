@@ -11,6 +11,7 @@ return {
           ["<leader>"] = { "<cmd>FzfLua buffers<cr>", "Open buffers" },
           ["/"] = { require("Comment.api").toggle.linewise.current, "Comment" },
           [":"] = { "<cmd>FzfLua command_history<cr>", "Command history" },
+          ["Q"] = { "<cmd>qa<cr>", "Quit" },
         },
         ["<leader>s"] = {
           name = "Search",

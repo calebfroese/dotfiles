@@ -21,6 +21,7 @@ return {
           "go",
           "html",
           "javascript",
+          "java",
           "json",
           "lua",
           "markdown",
@@ -82,6 +83,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
+          "jdtls",
           "gopls",
           "tsserver",
           "pyright",
