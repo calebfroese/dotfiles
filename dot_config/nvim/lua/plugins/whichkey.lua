@@ -1,3 +1,22 @@
+local function is_neotree_open()
+  -- Get the list of windows in the current tab
+  local windows = vim.api.nvim_tabpage_list_wins(0)
+
+  -- Iterate over the windows and check the buffer names
+  for _, win in ipairs(windows) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    local buf_ft = vim.api.nvim_buf_get_option(buf, "filetype")
+
+    -- Check if the buffer name or filetype matches NeoTree
+    if buf_name:match("NeoTree") or buf_ft == "neo-tree" then
+      return true
+    end
+  end
+
+  return false
+end
+
 return {
   {
     "folke/which-key.nvim",
@@ -11,7 +30,24 @@ return {
           ["<leader>"] = { "<cmd>FzfLua buffers<cr>", "Open buffers" },
           ["/"] = { require("Comment.api").toggle.linewise.current, "Comment" },
           [":"] = { "<cmd>FzfLua command_history<cr>", "Command history" },
-          ["Q"] = { "<cmd>qa<cr>", "Quit" },
+          ["q"] = {
+            function()
+              local pane_count = #vim.api.nvim_tabpage_list_wins(0)
+
+              local is_open = is_neotree_open()
+              if is_open then
+                pane_count = pane_count - 1
+              end
+
+              if pane_count > 1 then
+                local current_win = vim.api.nvim_get_current_win()
+                vim.api.nvim_win_close(current_win, true)
+              else
+                vim.cmd("Dashboard")
+              end
+            end,
+            "Quit",
+          },
         },
         ["<leader>s"] = {
           name = "Search",
