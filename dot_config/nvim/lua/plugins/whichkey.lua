@@ -103,7 +103,13 @@ return {
             function()
               vim.diagnostic.open_float()
             end,
-            "LSP Diagnostic Window",
+            "Diagnostic Preview",
+          },
+          D = {
+            function()
+              require('fzf-lua').diagnostics_workspace()
+            end,
+            "Diagnostic Window (Workspace)",
           },
         },
         ["<leader>p"] = {

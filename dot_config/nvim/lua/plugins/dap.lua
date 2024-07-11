@@ -53,6 +53,18 @@ return {
           args = { "${port}" },
         },
       }
+      dap.adapters["java"] = function(callback)
+          local util = require('jdtls.util')
+
+          util.execute_command({ command = 'vscode.java.startDebugSession' }, function(err0, port)
+            assert(not err0, vim.inspect(err0))
+            callback({
+              type = 'server',
+              host = '127.0.0.1',
+              port = port,
+            })
+          end)
+      end
       dap.configurations.javascript = {
         {
           type = "pwa-node",
@@ -61,6 +73,15 @@ return {
           program = "${file}",
           cwd = "${workspaceFolder}",
         },
+      }
+      dap.configurations.java = {
+        {
+          type = "java",
+          request = "attach",
+          name = "Debug attach",
+          hostName = "127.0.0.1",
+          port = 5005,
+        }
       }
     end,
   },

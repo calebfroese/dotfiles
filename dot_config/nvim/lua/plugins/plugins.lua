@@ -1,4 +1,8 @@
+
 return {
+  {
+    "mfussenegger/nvim-jdtls",
+  },
   {
     "echasnovski/mini.pairs",
     event = "VeryLazy",
@@ -42,23 +46,33 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
-    opts = function()
-      return {
+    config = function()
+      require("lualine").setup({
         options = {
           theme = "auto",
         },
         sections = {
           lualine_a = { "mode" },
+          lualine_b = {},
           lualine_c = {
             {
               "filename",
               path = 1,
             },
           },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
+          lualine_x = {},
+          lualine_y = {"searchcount"},
+          lualine_z = { "progress" },
         },
-      }
+        inactive_sessions = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+        },
+      })
     end,
   },
   {
@@ -83,7 +97,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
-          "jdtls",
+          -- "jdtls",
           "gopls",
           "tsserver",
           "pyright",
@@ -151,6 +165,14 @@ return {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
     end,
   },
 }

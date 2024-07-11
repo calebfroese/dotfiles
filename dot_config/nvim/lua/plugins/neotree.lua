@@ -46,7 +46,7 @@ return {
         },
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
-        enable_git_status = true,
+        enable_git_status = false,
         enable_diagnostics = true,
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
         sort_case_insensitive = false, -- used when sorting files and directories in the tree
@@ -85,29 +85,10 @@ return {
             default = "*",
             highlight = "NeoTreeFileIcon",
           },
-          modified = {
-            symbol = "[+]",
-            highlight = "NeoTreeModified",
-          },
           name = {
             trailing_slash = false,
             use_git_status_colors = true,
             highlight = "NeoTreeFileName",
-          },
-          git_status = {
-            symbols = {
-              -- Change type
-              added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-              modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-              deleted = "✖", -- this can only be used in the git_status source
-              renamed = "󰁕", -- this can only be used in the git_status source
-              -- Status type
-              untracked = "",
-              ignored = "",
-              unstaged = "󰄱",
-              staged = "",
-              conflict = "",
-            },
           },
           -- If you don't want to use these columns, you can set `enabled = false` for each of them individually
           file_size = {
