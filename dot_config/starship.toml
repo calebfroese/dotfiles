@@ -1,13 +1,13 @@
 format = """
+$os\
 $directory\
 $git_branch\
 $cmd_duration\
-$os\
 $character"""
 
 [os]
 disabled = false
-style = "bright-black"
+style = "#adadad"
 
 [character]
 success_symbol = "[❯](green)"
@@ -51,7 +51,7 @@ Illumos = "󰈸 "
 Kali = " "
 Linux = " "
 Mabox = " "
-Macos = " "
+Macos = "(color_white) "
 Manjaro = " "
 Mariner = " "
 MidnightBSD = " "
