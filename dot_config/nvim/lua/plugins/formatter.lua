@@ -4,39 +4,22 @@ return {
     event = "VeryLazy",
     cmd = { "Format", "FormatWrite" },
     config = function()
-      local formatter = require("formatter")
-      local util = require("formatter.util")
-      formatter.setup({
+      require('formatter').setup({
         logging = true,
         log_level = vim.log.levels.WARN,
         filetype = {
-          go = {
-            function()
-              return {
-                exe = "golines",
-                stdin = true,
-              }
-            end
-          },
-          lua = {
-            require("formatter.filetypes.lua").stylua,
-            function()
-              if util.get_current_buffer_file_name() == "special.lua" then
-                return nil
-              end
-              return {
-                exe = "stylua",
-                args = {
-                  "--search-parent-directories",
-                  "--stdin-filepath",
-                  util.escape_path(util.get_current_buffer_file_path()),
-                  "--",
-                  "-",
-                },
-                stdin = true,
-              }
-            end,
-          },
+          go = require("formatter.filetypes.go").golines,
+          lua = require("formatter.filetypes.lua").stylua,
+          css = require("formatter.filetypes.css").prettier,
+          typescript = require("formatter.filetypes.typescript").prettier,
+          typescriptreact = require("formatter.filetypes.typescriptreact").prettier,
+          javascript = require("formatter.filetypes.javascript").prettier,
+          javascriptreact = require("formatter.filetypes.javascriptreact").prettier,
+          html = require("formatter.filetypes.html").prettier,
+          yaml = require("formatter.filetypes.yaml").prettier,
+          json = require("formatter.filetypes.json").prettier,
+          rust = require("formatter.filetypes.rust").rustfmt,
+          proto = require("formatter.filetypes.proto").buf_format,
         },
       })
     end,

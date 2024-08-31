@@ -3,7 +3,7 @@ return {
     "mfussenegger/nvim-jdtls",
   },
   {
-    'windwp/nvim-autopairs',
+    "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
   },
@@ -87,34 +87,38 @@ return {
     config = function()
       require("neodev").setup()
       require("mason").setup()
-      require("mason-nvim-dap").setup({
-        ensure_installed = {
-          -- https://github.com/jay-babu/mason-nvim-dap.nvim/blob/main/lua/mason-nvim-dap/mappings/source.lua
-          "js",
-        },
-        automatic_installation = true,
-      })
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          -- "jdtls",
-          "gopls",
-          "tsserver",
-          "pyright",
-          "terraformls",
-        },
-      })
-
+      require("mason-nvim-dap").setup()
+      require("mason-lspconfig").setup()
       require("mason-lspconfig").setup_handlers({
-        -- The first entry (without a key) will be the default handler
-        -- and will be called for each installed server that doesn't have
-        -- a dedicated handler.
-        function(server_name) -- default handler (optional)
+        function(server_name)
           require("lspconfig")[server_name].setup({})
         end,
-        -- Next, you can provide a dedicated handler for specific servers.
-        -- For example, a handler override for the `rust_analyzer`:
       })
+
+      -- These will be automatically installed, keep in sync with expected formatters/lsp/dap etc
+      local packages = {
+        -- LSP
+        "lua-language-server",
+        "pyright",
+        "terraform-ls",
+        "typescript-language-server",
+        -- DAP
+        "js-debug-adapter",
+        -- Formatter
+        "stylua",
+        "prettier",
+        "golines",
+        "buf",
+      }
+      local str = ""
+      for _, v in pairs(packages) do
+        if not require("mason-registry").is_installed(v) then
+          str = str .. " " .. v
+        end
+      end
+      if string.len(str) > 0 then
+        vim.cmd("MasonInstall " .. str)
+      end
     end,
   },
   {
@@ -165,14 +169,6 @@ return {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
-    end,
-  },
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function()
-      vim.fn["mkdp#util#install"]()
     end,
   },
 }

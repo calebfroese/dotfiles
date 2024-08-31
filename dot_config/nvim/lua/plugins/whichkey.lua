@@ -1,22 +1,3 @@
-local function is_neotree_open()
-  -- Get the list of windows in the current tab
-  local windows = vim.api.nvim_tabpage_list_wins(0)
-
-  -- Iterate over the windows and check the buffer names
-  for _, win in ipairs(windows) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    local buf_name = vim.api.nvim_buf_get_name(buf)
-    local buf_ft = vim.api.nvim_buf_get_option(buf, "filetype")
-
-    -- Check if the buffer name or filetype matches NeoTree
-    if buf_name:match("NeoTree") or buf_ft == "neo-tree" then
-      return true
-    end
-  end
-
-  return false
-end
-
 return {
   {
     "folke/which-key.nvim",
@@ -33,17 +14,8 @@ return {
           [":"] = { "<cmd>FzfLua command_history<cr>", "Command history" },
           ["q"] = {
             function()
-              local pane_count = #vim.api.nvim_tabpage_list_wins(0)
-
-              local is_open = is_neotree_open()
-              if is_open then
-                pane_count = pane_count - 1
-              end
-
-              if pane_count > 1 then
-                local current_win = vim.api.nvim_get_current_win()
-                vim.api.nvim_win_close(current_win, true)
-              end
+              local current_win = vim.api.nvim_get_current_win()
+              vim.api.nvim_win_close(current_win, true)
             end,
             "Quit",
           },
@@ -109,26 +81,6 @@ return {
               require('fzf-lua').diagnostics_workspace()
             end,
             "Diagnostic Window (Workspace)",
-          },
-        },
-        ["<leader>p"] = {
-          name = "Pane",
-          o = { "<cmd>Neotree reveal<cr>", "Reveal" },
-          s = {
-            function()
-              vim.api.nvim_command("vsplit")
-              vim.api.nvim_command("bn")
-            end,
-            "Split (cur right)",
-          },
-          v = {
-            function()
-              vim.api.nvim_command("vsplit")
-              vim.api.nvim_command("wincmd l")
-              vim.api.nvim_command("bn")
-              vim.api.nvim_command("wincmd h")
-            end,
-            "Split (cur left)",
           },
         },
         ["<leader>g"] = {
