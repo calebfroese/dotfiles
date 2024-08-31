@@ -28,6 +28,7 @@ return {
         ["<leader>"] = {
           name = "Leader",
           ["<leader>"] = { "<cmd>FzfLua buffers<cr>", "Open buffers" },
+          ["F"] = { function() require('fzf-lua-zoxide').open({ callback = function(_) vim.cmd("e .") end }) end, "Find directory" },
           ["/"] = { require("Comment.api").toggle.linewise.current, "Comment" },
           [":"] = { "<cmd>FzfLua command_history<cr>", "Command history" },
           ["q"] = {
@@ -42,8 +43,6 @@ return {
               if pane_count > 1 then
                 local current_win = vim.api.nvim_get_current_win()
                 vim.api.nvim_win_close(current_win, true)
-              else
-                vim.cmd("Dashboard")
               end
             end,
             "Quit",

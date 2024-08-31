@@ -1,4 +1,3 @@
-
 return {
   {
     "mfussenegger/nvim-jdtls",
@@ -20,6 +19,9 @@ return {
         sync_install = false,
         highlight = { enable = true },
         indent = { enable = true },
+        auto_install = true,
+        ignore_install = {},
+        modules = {},
         ensure_installed = {
           "bash",
           "go",
@@ -61,16 +63,16 @@ return {
             },
           },
           lualine_x = {},
-          lualine_y = {"searchcount"},
+          lualine_y = { "searchcount" },
           lualine_z = { "progress" },
         },
         inactive_sessions = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {}
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { "filename" },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
         },
       })
     end,

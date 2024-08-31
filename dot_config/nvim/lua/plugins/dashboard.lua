@@ -2,6 +2,7 @@ return {
   {
     "nvimdev/dashboard-nvim",
     event = "VimEnter",
+    enabled = false,
     config = function()
       require("dashboard").setup({
         theme = "hyper",
@@ -20,7 +21,7 @@ return {
             limit = 8,
             action = function(arg)
               vim.cmd('cd ' .. arg)
-              vim.cmd('Neotree left show')
+              vim.cmd('Oil')
             end,
           },
         }

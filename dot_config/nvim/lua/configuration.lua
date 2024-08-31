@@ -1,1 +1,1 @@
-vim.wo.number = true
+vim.o.number = true

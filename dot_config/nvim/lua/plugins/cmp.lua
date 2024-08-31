@@ -29,10 +29,7 @@ return {
             require("luasnip").lsp_expand(args.body)
           end,
         },
-        completion = {
-          completeopt = "menu,menuone,noinsert",
-          autocomplete = false,
-        },
+	completion = defaults.completion,
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -56,15 +53,7 @@ return {
         }, {
           { name = "buffer" },
         }),
-        formatting = {
-          format = function(_, item)
-            --local icons = require("lazyvim.config").icons.kinds
-            --if icons[item.kind] then
-            --  item.kind = icons[item.kind] .. item.kind
-            --end
-            return item
-          end,
-        },
+	formatting = defaults.formatting,
         experimental = {
           ghost_text = {
             hl_group = "CmpGhostText",
