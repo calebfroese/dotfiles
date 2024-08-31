@@ -3,11 +3,9 @@ return {
     "mfussenegger/nvim-jdtls",
   },
   {
-    "echasnovski/mini.pairs",
-    event = "VeryLazy",
-    config = function()
-      require("mini.pairs").setup()
-    end,
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true,
   },
   {
     "nvim-treesitter/nvim-treesitter",
