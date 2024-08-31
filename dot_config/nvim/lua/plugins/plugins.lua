@@ -1,5 +1,11 @@
 return {
   {
+    "mbbill/undotree",
+    config = function()
+      vim.cmd("source ~/.config/nvim/lua/plugins/undotree.vim")
+    end,
+  },
+  {
     "mfussenegger/nvim-jdtls",
   },
   {
@@ -128,6 +134,7 @@ return {
   {
     "Mofiqul/vscode.nvim",
     opts = function()
+      require("vscode").setup()
       vim.cmd.colorscheme("vscode")
     end,
   },

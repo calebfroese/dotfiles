@@ -145,6 +145,7 @@ return {
       { "<leader>o", group = "Open" },
       { "<leader>of", "<cmd>FzfLua files<cr>", desc = "File (cwd)" },
       { "<leader>or", "<cmd>FzfLua oldfiles<cr>", desc = "File (recent)" },
+      { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
     },
   },
 }
