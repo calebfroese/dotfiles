@@ -5,95 +5,6 @@ return {
     config = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 0
-      require("which-key").register({
-        ["<leader>"] = {
-          name = "Leader",
-          ["<leader>"] = { "<cmd>FzfLua buffers<cr>", "Open buffers" },
-          ["F"] = { function() require('fzf-lua-zoxide').open({ callback = function(_) vim.cmd("e .") end }) end, "Find directory" },
-          ["/"] = { require("Comment.api").toggle.linewise.current, "Comment" },
-          [":"] = { "<cmd>FzfLua command_history<cr>", "Command history" },
-          ["q"] = {
-            function()
-              local current_win = vim.api.nvim_get_current_win()
-              vim.api.nvim_win_close(current_win, true)
-            end,
-            "Quit",
-          },
-        },
-        ["<leader>s"] = {
-          name = "Search",
-          f = { "<cmd>FzfLua grep_project<cr>", "Quick Search" },
-          s = {
-            function()
-              require("spectre").toggle()
-            end,
-            "Toggle Search",
-          },
-          w = {
-            function()
-              require("spectre").open_visual({ select_word = true })
-            end,
-            "Search Current Word",
-          },
-        },
-        ["<leader>d"] = {
-          name = "Debugger",
-          t = {
-            function()
-              require("dapui").toggle()
-            end,
-            "Toggle Debugger",
-          },
-          d = {
-            function()
-              require("dap").toggle_breakpoint()
-            end,
-            "Toggle Breakpoint",
-          },
-          e = {
-            function()
-              local expr = vim.fn.input("Expression: ", "", "expression")
-              require("dapui").eval(expr)
-            end,
-            "Evaluate Expression",
-          },
-        },
-        ["<leader>o"] = {
-          name = "Code Actions",
-          o = {
-            function()
-              vim.lsp.buf.code_action()
-            end,
-            "Organize / Add Missing Imports",
-          },
-          f = {
-            "<cmd>Format<cr>",
-            "Format",
-          },
-          d = {
-            function()
-              vim.diagnostic.open_float()
-            end,
-            "Diagnostic Preview",
-          },
-          D = {
-            function()
-              require('fzf-lua').diagnostics_workspace()
-            end,
-            "Diagnostic Window (Workspace)",
-          },
-        },
-        ["<leader>g"] = {
-          name = "Git",
-          b = { "<cmd>BlameToggle<cr>", "Blame" },
-        },
-        ["<leader>f"] = {
-          name = "Find",
-          f = { "<cmd>FzfLua files<cr>", "Find files (cwd)" },
-          r = { "<cmd>FzfLua oldfiles<cr>", "Recent files" },
-          n = { "<cmd>enew<cr>", "New File" },
-        },
-      })
     end,
     opts = {
       plugins = {
@@ -132,6 +43,7 @@ return {
         breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
         separator = "➜", -- symbol used between a key and it's label
         group = "+", -- symbol prepended to a group
+        mappings = false,
       },
       popup_mappings = {
         scroll_down = "<c-d>", -- binding to scroll down inside the popup
@@ -183,6 +95,56 @@ return {
         buftypes = {},
         filetypes = {},
       },
+    },
+    keys = {
+      { "<leader><leader>", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
+      {
+        "<leader>F",
+        function()
+          require("fzf-lua-zoxide").open({
+            callback = function(_)
+              vim.cmd("e .")
+            end,
+          })
+        end,
+        desc = "Open Directory",
+      },
+      { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+      {
+        "<leader>q",
+        function()
+          local current_win = vim.api.nvim_get_current_win()
+          vim.api.nvim_win_close(current_win, true)
+        end,
+        desc = "Quit",
+      },
+      { "<leader>s", group = "Search" },
+      { "<leader>sf", "<cmd>FzfLua grep_project<cr>", desc = "Grep Project" },
+      {
+        "<C-s>",
+        function()
+          require("spectre").open_visual({ select_word = true })
+        end,
+        desc = "Search",
+        mode = "n",
+      },
+      {
+        "<C-s>",
+        function()
+          require("spectre").open_visual({ select_word = true })
+        end,
+        desc = "Search Selected",
+        mode = "v",
+      },
+      { "<leader>c", group = "Code" },
+      { "<leader>cf", "<cmd>Format<cr>", desc = "Format" },
+      { "<leader>cd", vim.diagnostic.open_float, desc = "Diagnostics" },
+      { "<leader>cD", vim.diagnostic.open_float, desc = "Diagnostics (Workspace)" },
+      { "<leader>g", group = "Git", desc = "Git" },
+      { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Blame" },
+      { "<leader>o", group = "Open" },
+      { "<leader>of", "<cmd>FzfLua files<cr>", desc = "File (cwd)" },
+      { "<leader>or", "<cmd>FzfLua oldfiles<cr>", desc = "File (recent)" },
     },
   },
 }
