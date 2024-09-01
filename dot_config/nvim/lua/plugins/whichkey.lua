@@ -138,8 +138,6 @@ return {
       },
       { "<leader>c", group = "Code" },
       { "<leader>cf", "<cmd>Format<cr>", desc = "Format" },
-      { "<leader>cd", vim.diagnostic.open_float, desc = "Diagnostics" },
-      { "<leader>cD", vim.diagnostic.open_float, desc = "Diagnostics (Workspace)" },
       { "<leader>g", group = "Git", desc = "Git" },
       { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Blame" },
       { "<leader>o", group = "Open" },
