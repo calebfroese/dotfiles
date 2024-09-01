@@ -5,3 +5,12 @@ export FZF_DEFAULT_OPTS='--preview="bat {}"'
 eval "$(zoxide init zsh)"
 
 eval "$(starship init zsh)"
+
+# Make nvim ":Man" the default man page because colors are pretty
+if [ -n "${NVIM_LISTEN_ADDRESS+x}" ]; then
+  # Prevent nesting nvim if inside ":terminal"
+  export MANPAGER="/usr/local/bin/nvr -c 'Man!' -o -"
+else
+  export MANPAGER="nvim \+Man\!"
+fi
+
