@@ -7,6 +7,10 @@ require("config.lazy")
 vim.wo.number = true
 vim.wo.relativenumber = true
 
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+
 -- Open help in current buffer instead of horizontal split
 vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("HelpReplaceWindow", { clear = false }),
