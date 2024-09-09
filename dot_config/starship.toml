@@ -15,11 +15,11 @@ error_symbol = "[❯](red)"
 
 [cmd_duration]
 format = "[$duration]($style) "
-style = "yellow"
+style = "bright-black"
 
 [directory]
 read_only = " 󰌾"
-style = "bold blue"
+style = "bold 130"
 truncation_length = 6
 truncation_symbol = "… "
 
@@ -51,7 +51,7 @@ Illumos = "󰈸 "
 Kali = " "
 Linux = " "
 Mabox = " "
-Macos = "(color_white) "
+Macos = " "
 Manjaro = " "
 Mariner = " "
 MidnightBSD = " "
