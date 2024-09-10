@@ -5,3 +5,5 @@ zmodload -i zsh/complist
 zstyle ':completion:*' menu select # highlight selected option
 bindkey '^[[Z' reverse-menu-complete # enable shift-tab to reverse through completions
 
+# Enable colored ls
+export CLICOLOR=1
