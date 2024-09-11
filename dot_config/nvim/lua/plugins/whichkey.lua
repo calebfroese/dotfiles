@@ -97,19 +97,6 @@ return {
       },
     },
     keys = {
-      { "<leader><leader>", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
-      {
-        "<leader>F",
-        function()
-          require("fzf-lua-zoxide").open({
-            callback = function(_)
-              vim.cmd("e .")
-            end,
-          })
-        end,
-        desc = "Open Directory",
-      },
-      { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       {
         "<leader>q",
         function()
@@ -118,8 +105,6 @@ return {
         end,
         desc = "Quit",
       },
-      { "<leader>s", group = "Search" },
-      { "<leader>sf", "<cmd>FzfLua grep_project<cr>", desc = "Grep Project" },
       {
         "<C-s>",
         function()
@@ -141,8 +126,6 @@ return {
       { "<leader>g", group = "Git", desc = "Git" },
       { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Blame" },
       { "<leader>o", group = "Open" },
-      { "<leader>of", "<cmd>FzfLua files<cr>", desc = "File (cwd)" },
-      { "<leader>or", "<cmd>FzfLua oldfiles<cr>", desc = "File (recent)" },
       { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
     },
   },
