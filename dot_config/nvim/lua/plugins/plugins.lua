@@ -49,39 +49,6 @@ return {
     end,
   },
   {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "VeryLazy",
-    config = function()
-      require("lualine").setup({
-        options = {
-          theme = "auto",
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = {},
-          lualine_c = {
-            {
-              "filename",
-              path = 1,
-            },
-          },
-          lualine_x = {},
-          lualine_y = { "searchcount" },
-          lualine_z = { "progress" },
-        },
-        inactive_sessions = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-      })
-    end,
-  },
-  {
     "williamboman/mason.nvim",
     event = "VeryLazy",
     dependencies = {
@@ -136,13 +103,6 @@ return {
     opts = function()
       require("vscode").setup()
       vim.cmd.colorscheme("vscode")
-    end,
-  },
-  {
-    "stevearc/conform.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("conform").setup({})
     end,
   },
   {
