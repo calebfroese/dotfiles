@@ -75,6 +75,7 @@ return {
         "pyright",
         "terraform-ls",
         "typescript-language-server",
+        "rust-analyzer",
         -- DAP
         "js-debug-adapter",
         -- Formatter
@@ -82,6 +83,7 @@ return {
         "prettier",
         "golines",
         "buf",
+        "shfmt",
       }
       local str = ""
       for _, v in pairs(packages) do

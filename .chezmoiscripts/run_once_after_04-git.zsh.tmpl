@@ -2,5 +2,9 @@
 
 # Some workloads are modifying my .gitconfig, so instead I leave it unmanaged and set the individual config vars I want
 git config --global core.editor "nvim"
-git config --global core.pager "less -+$LESS -RS"
+git config --global core.pager "delta"
+git config --global interactive.diffFilter "delta --color-only"
+git config --global delta.navigate true
+git config --global merge.conflictstyle "diff3"
+git config --global diff.colorMoved "default"
 

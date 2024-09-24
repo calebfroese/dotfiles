@@ -8,6 +8,8 @@ return {
         logging = true,
         log_level = vim.log.levels.WARN,
         filetype = {
+          -- Keep in sync with installed plugins/plugins.lua
+          -- https://github.com/mhartington/formatter.nvim/tree/master/lua/formatter/filetypes
           go = require("formatter.filetypes.go").golines,
           lua = require("formatter.filetypes.lua").stylua,
           css = require("formatter.filetypes.css").prettier,
@@ -20,6 +22,7 @@ return {
           json = require("formatter.filetypes.json").prettier,
           rust = require("formatter.filetypes.rust").rustfmt,
           proto = require("formatter.filetypes.proto").buf_format,
+          sh = require("formatter.filetypes.sh").shfmt,
         },
       })
     end,
