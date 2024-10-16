@@ -1,10 +1,19 @@
+local function buildifier()
+  local util = require("formatter.util")
+  return {
+    exe = "buildifier",
+    args = { "-mode", "fix" },
+    stdin = true,
+  }
+end
+
 return {
   {
     "mhartington/formatter.nvim",
     event = "VeryLazy",
     cmd = { "Format", "FormatWrite" },
     config = function()
-      require('formatter').setup({
+      require("formatter").setup({
         logging = true,
         log_level = vim.log.levels.WARN,
         filetype = {
@@ -23,6 +32,7 @@ return {
           rust = require("formatter.filetypes.rust").rustfmt,
           proto = require("formatter.filetypes.proto").buf_format,
           sh = require("formatter.filetypes.sh").shfmt,
+          bzl = buildifier,
         },
       })
     end,

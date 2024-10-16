@@ -43,6 +43,7 @@ return {
       },
       { "<leader>s:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       { "<leader>sb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
+      { "<leader>sB", "<cmd>FzfLua lines<cr>", desc = "Buffers Contents" },
       { "<leader>sg", "<cmd>FzfLua grep_project<cr>", desc = "Grep Project" },
       { "<leader>sf", "<cmd>FzfLua files<cr>", desc = "File (cwd)" },
       { "<leader>sr", "<cmd>FzfLua oldfiles<cr>", desc = "File (recent)" },
