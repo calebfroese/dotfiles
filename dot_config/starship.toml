@@ -5,9 +5,10 @@ $git_branch\
 $cmd_duration\
 $character"""
 
-[os]
-disabled = false
-style = "#adadad"
+# Disabled as too slow (300ms)
+# [os]
+# disabled = false
+# style = "#adadad"
 
 [character]
 success_symbol = "[❯](green)"
