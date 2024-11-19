@@ -5,7 +5,11 @@ return {
     lazy = false,
     version = false,
     opts = {
-      provider = 'copilot'
+      provider = 'copilot',
+      mappings = {
+        ask = "<C-a>",
+        edit = "<C-e>",
+      },
     },
     build = "make",
     dependencies = {
