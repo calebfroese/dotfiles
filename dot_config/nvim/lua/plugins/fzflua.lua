@@ -31,6 +31,18 @@ return {
       { "<leader>s", group = "Search" },
       { "<leader><leader>", "<cmd>FzfLua resume<cr>", desc = "Resume search" },
       {
+        "<leader>f",
+        function()
+          require("fzf-lua-zoxide").open({
+            callback = function(_)
+              vim.cmd("e .")
+            end,
+            setcwd = false,
+          })
+        end,
+        desc = "Open Directory",
+      },
+      {
         "<leader>F",
         function()
           require("fzf-lua-zoxide").open({
@@ -39,7 +51,7 @@ return {
             end,
           })
         end,
-        desc = "Open Directory",
+        desc = "Change Directory",
       },
       { "<leader>s:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       { "<leader>sb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },

@@ -94,7 +94,6 @@ return {
       if string.len(str) > 0 then
         vim.cmd("MasonInstall " .. str)
       end
-
     end,
   },
   {
