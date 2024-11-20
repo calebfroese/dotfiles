@@ -1,6 +1,3 @@
--- Setup copy/paste with iTerm. Requires "brew install reattach-to-user-namespace"
-vim.o.clipboard = "unnamedplus"
-
 -- Various keybindings
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
