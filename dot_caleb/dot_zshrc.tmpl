@@ -14,3 +14,7 @@ else
   export MANPAGER="nvim \+Man\!"
 fi
 
+# Make "home" and "end" keys consistent across platforms
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+
