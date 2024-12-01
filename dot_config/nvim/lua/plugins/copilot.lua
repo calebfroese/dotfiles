@@ -5,7 +5,7 @@ return {
     lazy = false,
     version = false,
     opts = {
-      provider = 'copilot',
+      provider = "copilot",
       mappings = {
         ask = "<C-a>",
         edit = "<C-e>",
@@ -17,7 +17,9 @@ return {
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
+      {
+        "nvim-tree/nvim-web-devicons",
+      },
       "zbirenbaum/copilot.lua",
       {
         -- support for image pasting
@@ -37,5 +39,5 @@ return {
   {
     "github/copilot.vim",
     event = "VeryLazy",
-  }
+  },
 }

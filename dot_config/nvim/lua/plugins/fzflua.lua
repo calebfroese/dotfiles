@@ -23,7 +23,7 @@ return {
           },
         },
         grep = {
-          prompt = "Grep ❯ "
+          prompt = "Grep ❯ ",
         },
       })
     end,

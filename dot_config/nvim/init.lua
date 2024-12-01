@@ -10,22 +10,25 @@ vim.wo.relativenumber = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
+vim.o.viminfo = "!,'1000,<50,s10,h"
 -- Setup copy/paste with iTerm. Requires "brew install reattach-to-user-namespace" on the MacOS host and relevant setup for iTerm
 vim.o.clipboard = "unnamedplus"
 
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['"'] = require('vim.ui.clipboard.osc52').copy('"'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-  },
-  paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-    ['"'] = require('vim.ui.clipboard.osc52').paste('"'),
-    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-  },
-}
+if vim.loop.os_uname().sysname == "Linux" then
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['"'] = require('vim.ui.clipboard.osc52').copy('"'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+      ['"'] = require('vim.ui.clipboard.osc52').paste('"'),
+      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    },
+  }
+end
 
 -- Open help in current buffer instead of horizontal split
 vim.api.nvim_create_autocmd("BufEnter", {
