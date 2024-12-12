@@ -32,6 +32,7 @@ return {
           rust = require("formatter.filetypes.rust").rustfmt,
           proto = require("formatter.filetypes.proto").buf_format,
           sh = require("formatter.filetypes.sh").shfmt,
+          cpp = require("formatter.filetypes.cpp").clangformat,
           bzl = buildifier,
         },
       })
