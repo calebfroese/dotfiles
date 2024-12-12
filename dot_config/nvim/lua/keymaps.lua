@@ -13,7 +13,7 @@ end)
 
 -- Toggle between cpp .h and .cpp files
 vim.keymap.set("n", "<C-c>", function()
-  local file = vim.fn.expand("%:t:r")
+  local file = vim.fn.expand("%:r")
   local ext = vim.fn.expand("%:e")
   if ext == "cpp" then
     vim.cmd("e " .. file .. ".h")
