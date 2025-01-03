@@ -15,13 +15,20 @@ function RemoveUnusedImports()
   end
 end
 
+function OpenDiagnosticPopup()
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  if vim.diagnostic.get(0, {lnum = lnum}) then
+    vim.diagnostic.open_float()
+  end
+end
+
 -- The nvim default lsp shows diagnostics in virtual text, but when those diagnostics
 -- are long they are truncated. This opens a floating window after a brief delay.
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
-    local lnum = vim.api.nvim_win_get_cursor(0)[1]
-    if vim.diagnostic.get(0, {lnum = lnum}) then
-      vim.diagnostic.open_float()
-    end
+    OpenDiagnosticPopup()
   end,
 })
+
+-- Add a binding to leader + d to open diagnostics
+vim.api.nvim_set_keymap("n", "<leader>d", ":lua OpenDiagnosticPopup()<CR>", {noremap = true, silent = true})

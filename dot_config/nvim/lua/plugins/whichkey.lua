@@ -126,6 +126,7 @@ return {
       { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Blame" },
       { "<leader>o", group = "Open" },
       { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
+      { "<leader>d", "<cmd>lua OpenDiagnosticPopup()<cr>", desc = "Diagnostic Window" },
     },
   },
 }
