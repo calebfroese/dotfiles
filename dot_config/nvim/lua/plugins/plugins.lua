@@ -103,7 +103,11 @@ return {
   {
     "Mofiqul/vscode.nvim",
     opts = function()
-      require("vscode").setup()
+      require("vscode").setup({
+        color_overrides = {
+          vscBack = '#151515',
+        },
+      })
       vim.cmd.colorscheme("vscode")
     end,
   },
