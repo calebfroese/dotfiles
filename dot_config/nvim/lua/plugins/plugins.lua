@@ -109,6 +109,12 @@ return {
         },
       })
       vim.cmd.colorscheme("vscode")
+
+      -- Custom theme overrides 
+      local c = require('vscode.colors').get_colors()
+      local hl = vim.api.nvim_set_hl
+      hl(0, "CursorLineNr", { fg = "#ff8000", bold = true })
+      hl(0, 'CursorLine', { bg = "#202020" })
     end,
   },
   {
