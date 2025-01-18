@@ -10,3 +10,12 @@ export PATH="$PATH:$HOME/.local/bin"
 # Add Rust Cargo to the path
 export PATH="$PATH:$HOME/.cargo/bin"
 
+source $(dirname $0)/aliases
+
+# ZSH completion styling and configuration
+zmodload -i zsh/complist
+zstyle ':completion:*' menu select # highlight selected option
+bindkey '^[[Z' reverse-menu-complete # enable shift-tab to reverse through completions
+
+# Enable colored ls
+export CLICOLOR=1
