@@ -105,7 +105,7 @@ return {
     opts = function()
       require("vscode").setup({
         color_overrides = {
-          vscBack = '#151515',
+          vscBack = 'NONE',
         },
       })
       vim.cmd.colorscheme("vscode")
