@@ -21,3 +21,6 @@ alias gom='git commit'
 # Nvim
 alias nv='nvim'
 
+# Zoxide
+alias zq='zoxide query -i'
+
