@@ -22,5 +22,5 @@ alias gom='git commit'
 alias nv='nvim'
 
 # Zoxide
-alias zq='zoxide query -i'
+alias zq='cd $(zoxide query -i)' # interactively selects a directory
 
