@@ -17,6 +17,12 @@ Instead, the dotfile versions of these live in `~/.caleb`, and simply need to be
 Chezmoi will do this automatically during the apply scripts.
 - I usually kick off `tmux` when I first open a shell. I don't like to automatically enter a tmux session as it makes it annoying to iterate the config or debug (looking at you obscure nvim<>tmux over ssh bug).
 
+### Known issues
+
+Things I need to get around to fixing:
+
+- zsh history search with `ctrl+r` doesn't correctly populate selected multi-line history items
+
 ## Development
 
 The development loop typically looks like:
