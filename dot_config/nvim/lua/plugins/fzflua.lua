@@ -34,8 +34,8 @@ return {
         "<leader>f",
         function()
           require("fzf-lua-zoxide").open({
-            callback = function(_)
-              vim.cmd("e .")
+            callback = function(dir)
+              vim.cmd("e " .. dir)
             end,
             setcwd = false,
           })
