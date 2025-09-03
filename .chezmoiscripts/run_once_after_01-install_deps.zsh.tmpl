@@ -24,6 +24,7 @@ ln -s /usr/bin/batcat ~/.local/bin/bat
 # Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 export PATH="$PATH:$HOME/.cargo/bin"
+rustup default stable
 
 # Install Starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
