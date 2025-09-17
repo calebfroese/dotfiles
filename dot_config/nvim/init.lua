@@ -1,5 +1,6 @@
 require("keymaps")
 require("configuration")
+require("flash-pane")
 
 -- Bootstrap LazyVim
 require("config.lazy")
@@ -52,4 +53,42 @@ end
 vim.api.nvim_create_autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("HelpReplaceWindow", { clear = false }),
   callback = open_help_in_current_buffer,
+})
+
+vim.api.nvim_create_autocmd("TermLeave", {
+  callback = function()
+    vim.cmd("checktime")
+    print("TermLeave: checktime called")
+  end,
+})
+
+-- Custom function to show tab pwd in tab labels
+function _G.custom_tablabel()
+  local s = ''
+  for i = 1, vim.fn.tabpagenr('$') do
+    local cwd = vim.fn.getcwd(-1, i)
+    local fullpath = vim.fn.fnamemodify(cwd, ':~')  -- Full path from home
+    s = s .. '%' .. i .. 'T'
+    if i == vim.fn.tabpagenr() then
+      s = s .. '%#TabLineSel#'
+    else
+      s = s .. '%#TabLine#'
+    end
+    s = s .. ' ' .. fullpath .. ' '
+  end
+  s = s .. '%#TabLineFill#%T'
+  return s
+end
+
+-- Force custom tabline after all plugins load
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.opt.tabline = "%!v:lua.custom_tablabel()"
+    vim.opt.showtabline = 2  -- Always show tabline
+    
+    -- Style active tab orange
+    vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#ffffff', bg = '#ff8000', bold = true })
+    vim.api.nvim_set_hl(0, 'TabLine', { fg = '#ffffff', bg = '#3c3c3c' })
+    vim.api.nvim_set_hl(0, 'TabLineFill', { bg = '#1c1c1c' })
+  end,
 })

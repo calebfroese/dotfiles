@@ -21,3 +21,12 @@ vim.keymap.set("n", "<C-c>", function()
     vim.cmd("e " .. file .. ".cpp")
   end
 end)
+
+-- Map tab navigation keys (works both inside and outside tmux)
+vim.keymap.set("n", "<Tab>", ":tabnext<CR>")
+vim.keymap.set("n", "<S-Tab>", ":tabprevious<CR>")
+vim.keymap.set("n", "<C-Tab>", ":tabnext<CR>")
+vim.keymap.set("n", "<C-S-Tab>", ":tabprevious<CR>")
+
+-- Map Ctrl+n to create new tab
+vim.keymap.set("n", "<C-n>", ":tabnew<CR>")
