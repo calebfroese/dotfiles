@@ -55,13 +55,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = open_help_in_current_buffer,
 })
 
-vim.api.nvim_create_autocmd("TermLeave", {
-  callback = function()
-    vim.cmd("checktime")
-    print("TermLeave: checktime called")
-  end,
-})
-
 -- Custom function to show tab pwd in tab labels
 function _G.custom_tablabel()
   local s = ''
