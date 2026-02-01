@@ -24,3 +24,6 @@ alias nv='nvim'
 # Zoxide
 alias zq='cd $(zoxide query -i)' # interactively selects a directory
 
+# OpenCode
+alias oc='opencode .'
+
