@@ -1,0 +1,20 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/zsh
+
+# Install opencode on macOS
+if ! command -v opencode &> /dev/null; then
+    echo "Installing opencode for macOS..."
+    curl -fsSL https://opencode.ai/install | bash
+fi
+
+{{- end }}
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/zsh
+
+# Install opencode on Linux
+if ! command -v opencode &> /dev/null; then
+    echo "Installing opencode for Linux..."
+    curl -fsSL https://opencode.ai/install | bash
+fi
+
+{{- end }}
