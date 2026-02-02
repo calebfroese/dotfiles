@@ -1,0 +1,58 @@
+{{- if eq .chezmoi.os "darwin" "linux" -}}
+#!/bin/zsh
+
+SCRIPT_DIR="{{ .chezmoi.sourceDir }}/.chezmoiscripts/.scripts"
+
+# Function to render and run a script
+run_script() {
+    local script_name="$1"
+    if [ -f "$SCRIPT_DIR/$script_name" ]; then
+        # Render and execute
+        cat "$SCRIPT_DIR/$script_name" | chezmoi execute-template | zsh
+    else
+        echo "Error: Script $script_name not found at $SCRIPT_DIR/$script_name"
+        return 1
+    fi
+}
+
+# Refresh sudo credentials
+sudo -v
+
+echo "Starting Phased Parallel Installation..."
+
+# Define phases (prefixes)
+phases=("01" "02")
+
+for phase in "${phases[@]}"; do
+    echo "--- Phase $phase ---"
+    pids=()
+    
+    # Iterate over all files starting with the phase prefix
+    # Use globbing from the source directory, but since we are in a template, we can't shell glob easily on the host side without ls.
+    # However, we can use the `include` function trick or just rely on a shell command inside the script.
+    
+    # We will list files in SCRIPT_DIR matching pattern.
+    for script in "$SCRIPT_DIR"/$phase-*.zsh.tmpl; do
+        if [ -e "$script" ]; then
+            base_name=$(basename "$script")
+            echo "Starting: $base_name"
+            run_script "$base_name" &
+            pids+=($!)
+        fi
+    done
+    
+    # Wait for all background jobs in this phase
+    if [ ${#pids[@]} -gt 0 ]; then
+        wait "${pids[@]}"
+        if [ $? -ne 0 ]; then
+            echo "❌ Phase $phase failed. Aborting."
+            exit 1
+        fi
+        echo "✅ Phase $phase complete."
+    else
+        echo "No scripts found for Phase $phase."
+    fi
+done
+
+echo "✨ All Phases Complete!"
+{{- end -}}

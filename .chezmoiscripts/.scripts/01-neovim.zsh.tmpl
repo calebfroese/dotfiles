@@ -1,0 +1,16 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/zsh
+echo "Installing Neovim Nightly (macOS)..."
+curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
+sudo rm -rf /opt/nvim-macos-arm64
+sudo tar -C /opt -xzf nvim-macos-arm64.tar.gz
+rm nvim-macos-arm64.tar.gz
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/zsh
+echo "Installing Neovim Nightly (Linux)..."
+curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+{{- end }}

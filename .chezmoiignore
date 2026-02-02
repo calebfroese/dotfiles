@@ -4,3 +4,4 @@ README.md
 {{- if (eq .chezmoi.os "darwin" "linux") -}}
 Appdata/
 {{- end }}
+.chezmoiscripts/_scripts

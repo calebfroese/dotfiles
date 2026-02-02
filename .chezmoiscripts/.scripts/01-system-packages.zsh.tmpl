@@ -1,0 +1,16 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/zsh
+echo "Installing System Packages (Brew)..."
+brew install ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed node tmux zoxide
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/zsh
+echo "Installing System Packages (Apt)..."
+sudo apt update
+sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake nodejs tmux zoxide -y --allow-change-held-packages
+
+# Bat link batcat -> batcat
+mkdir -p ~/.local/bin
+ln -s /usr/bin/batcat ~/.local/bin/bat
+{{- end }}
