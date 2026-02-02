@@ -1,19 +1,6 @@
 require("keymaps")
 require("configuration")
-require("flash-pane")
-
--- Bootstrap LazyVim
-require("config.lazy")
-
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.cursorline = true
-vim.o.tabstop = 2
-vim.o.softtabstop = 2
-vim.o.shiftwidth = 2
-vim.o.viminfo = "!,'1000,<50,s10,h"
--- Setup copy/paste with iTerm. Requires "brew install reattach-to-user-namespace" on the MacOS host and relevant setup for iTerm
-vim.o.clipboard = "unnamedplus"
+require("packages")
 
 if vim.loop.os_uname().sysname == "Linux" then
   vim.g.clipboard = {
@@ -78,7 +65,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     vim.opt.tabline = "%!v:lua.custom_tablabel()"
     vim.opt.showtabline = 2  -- Always show tabline
-    
+
     -- Style active tab orange
     vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#ffffff', bg = '#ff8000', bold = true })
     vim.api.nvim_set_hl(0, 'TabLine', { fg = '#ffffff', bg = '#3c3c3c' })
