@@ -1,6 +1,5 @@
 # NPM
 alias ns='npm start'
-alias nt='npm test'
 alias ni='npm i'
 
 # Git
@@ -11,7 +10,6 @@ alias ga='git add .'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gl='git log --graph --oneline --decorate=short --all --color=always | head -n $LINES'
-alias glive='watch --color --interval 1 "git log --graph --oneline --color=always --decorate=short --all"'
 alias gporigin='git push -u origin $(git symbolic-ref --short HEAD)'
 alias gap='git add -p'
 alias grp='git reset -p'
@@ -22,7 +20,7 @@ alias gom='git commit'
 alias nv='nvim'
 
 # Zoxide
-alias zq='cd $(zoxide query -i)' # interactively selects a directory
+alias zd='cd $(zoxide query -i)' # interactively selects a directory
 
 # OpenCode
 alias oc='opencode .'
