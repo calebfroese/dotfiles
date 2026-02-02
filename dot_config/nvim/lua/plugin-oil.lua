@@ -1,6 +1,4 @@
-local M = {
-  src = "https://github.com/stevearc/oil.nvim"
-}
+local M = { src = "https://github.com/stevearc/oil.nvim" }
 
 function M.setup()
 	require("oil").setup({
@@ -13,4 +11,8 @@ function M.setup()
 	})
 end
 
-return M
+if ... then
+	return M
+else
+	M.setup()
+end

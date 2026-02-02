@@ -1,34 +1,56 @@
-vim.o.number = true
-vim.o.relativenumber = true
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.wo.cursorline = true
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+vim.o.viminfo = "!,'1000,<50,s10,h"
 
--- This only works for Go. Should expand this to other langs and make a plugin out of it.
-function RemoveUnusedImports()
-  local diagnostics = vim.diagnostic.get(0)
-  local lines_removed = 0
-  for _, diagnostic in ipairs(diagnostics) do
-    if diagnostic.code == "UnusedImport" then
-      local start_line = diagnostic.lnum - lines_removed
-      local end_line = diagnostic.end_lnum - lines_removed + 1
-      vim.api.nvim_buf_set_lines(0, start_line, end_line, false, {})
-      lines_removed = lines_removed + end_line - start_line
-    end
-  end
+-- Setup copy/paste with iTerm. Requires "brew install reattach-to-user-namespace" on the MacOS host and relevant setup for iTerm
+vim.o.clipboard = "unnamedplus"
+vim.o.winborder = "rounded"
+if vim.loop.os_uname().sysname == "Linux" then
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['"'] = require('vim.ui.clipboard.osc52').copy('"'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+      ['"'] = require('vim.ui.clipboard.osc52').paste('"'),
+      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    },
+  }
 end
 
-function OpenDiagnosticPopup()
-  local lnum = vim.api.nvim_win_get_cursor(0)[1]
-  if vim.diagnostic.get(0, {lnum = lnum}) then
-    vim.diagnostic.open_float()
-  end
-end
+vim.keymap.set("n", "<leader><leader>", "<cmd>FzfLua resume<cr>", { desc = "Resume search" })
+vim.keymap.set("n", "<leader>D", function()
+	require("fzf-lua-zoxide").open({
+		callback = function(dir)
+			vim.cmd("e " .. dir)
+		end,
+		setcwd = false,
+	})
+end, { desc = "Open Directory" })
 
--- The nvim default lsp shows diagnostics in virtual text, but when those diagnostics
--- are long they are truncated. This opens a floating window after a brief delay.
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    OpenDiagnosticPopup()
-  end,
-})
+vim.keymap.set("n", "<leader>F", function()
+	require("fzf-lua-zoxide").open({
+		callback = function(_)
+			vim.cmd("e .")
+		end,
+	})
+end, { desc = "Change Directory" })
 
--- Add a binding to leader + d to open diagnostics
-vim.api.nvim_set_keymap("n", "<leader>d", ":lua OpenDiagnosticPopup()<CR>", {noremap = true, silent = true})
+vim.keymap.set("n", "<leader>s:", "<cmd>FzfLua command_history<cr>", { desc = "Command History" })
+vim.keymap.set("n", "<leader>sb", "<cmd>FzfLua buffers<cr>", { desc = "Buffers" })
+vim.keymap.set("n", "<leader>sB", "<cmd>FzfLua lines<cr>", { desc = "Buffers Contents" })
+vim.keymap.set("n", "<leader>sg", "<cmd>FzfLua grep_project<cr>", { desc = "Grep Project" })
+vim.keymap.set("n", "<leader>sf", "<cmd>FzfLua files<cr>", { desc = "File (cwd)" })
+vim.keymap.set("n", "<leader>sr", "<cmd>FzfLua oldfiles<cr>", { desc = "File (recent)" })
+vim.keymap.set("n", "<leader>sx", "<cmd>FzfLua diagnostics_document<cr>", { desc = "Diagnostics (buffer)" })
+vim.keymap.set("n", "<leader>sX", "<cmd>FzfLua diagnostics_workspace<cr>", { desc = "Diagnostics (cwd)" })
+vim.keymap.set("n", "<leader>sl", "<cmd>FzfLua lsp_references<cr>", { desc = "References" })

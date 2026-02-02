@@ -1,45 +1,40 @@
-require("keymaps")
 require("configuration")
-require("packages")
+require("keymaps")
 
-if vim.loop.os_uname().sysname == "Linux" then
-  vim.g.clipboard = {
-    name = 'OSC 52',
-    copy = {
-      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-      ['"'] = require('vim.ui.clipboard.osc52').copy('"'),
-      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-    },
-    paste = {
-      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-      ['"'] = require('vim.ui.clipboard.osc52').paste('"'),
-      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-    },
-  }
+local plugins = {
+  require("plugin-nvim-treesitter"),
+  require("plugin-oil"),
+  require("plugin-fzf-lua"),
+  require("plugin-fzf-lua-zoxide"),
+  require("plugin-nvim-lspconfig"),
+  require("plugin-vscode"),
+  require("plugin-mini-completion"),
+}
+
+vim.pack.add(plugins)
+
+for _, pkg in ipairs(plugins) do
+  pkg.setup()
 end
 
 
--- Function to open help in the current buffer
-local function open_help_in_current_buffer()
-  if vim.bo.filetype == "help" and vim.b.already_opened == nil then
-    vim.b.already_opened = true
-
-    -- close the original window
-    local original_win = vim.fn.win_getid(vim.fn.winnr("#"))
-    local help_win = vim.api.nvim_get_current_win()
-    if original_win ~= help_win then
-      vim.api.nvim_win_close(original_win, false)
-    end
-
-    -- put the help buffer in the buffer list
-    vim.bo.buflisted = true
-  end
-end
-
--- Open help in current buffer instead of horizontal split
+-- Absolutely hate that :help screws up whatever split panes I have
+-- This treats :help similar to :e, opening in the active pane
 vim.api.nvim_create_autocmd("BufEnter", {
-  group = vim.api.nvim_create_augroup("HelpReplaceWindow", { clear = false }),
-  callback = open_help_in_current_buffer,
+  group = vim.api.nvim_create_augroup("HelpInCurrentBuffer", { clear = true }),
+  callback = function()
+    if vim.bo.filetype ~= "help" or vim.b.help_opened then
+      return
+    end
+    vim.b.help_opened = true
+    vim.bo.buflisted = true
+
+    local prev_win = vim.fn.win_getid(vim.fn.winnr("#"))
+    local curr_win = vim.api.nvim_get_current_win()
+    if prev_win ~= curr_win and vim.api.nvim_win_is_valid(prev_win) then
+      vim.api.nvim_win_close(prev_win, false)
+    end
+  end,
 })
 
 -- Custom function to show tab pwd in tab labels
