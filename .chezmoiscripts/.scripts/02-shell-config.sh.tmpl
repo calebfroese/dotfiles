@@ -1,5 +1,5 @@
 {{- if (eq .chezmoi.os "linux") -}}
-#!/bin/sh
+#!/bin/bash
 
 echo "Setting zsh as default shell..."
 
@@ -36,7 +36,7 @@ grep -qxF "$ZSHENV_LINE" "$ZSHENV" || echo "$ZSHENV_LINE" >> "$ZSHENV"
 grep -qxF "$ZPROFILE_LINE" "$ZPROFILE" || echo "$ZPROFILE_LINE" >> "$ZPROFILE"
 {{- end }}
 {{- if (eq .chezmoi.os "darwin") -}}
-#!/bin/sh
+#!/bin/bash
 
 if [ ! -d ~/.tmux/plugins/tpm ]; then
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

@@ -1,11 +1,11 @@
 {{- if eq .chezmoi.os "darwin" -}}
-#!/bin/zsh
+#!/bin/bash
 echo "Installing System Packages (Brew)..."
 brew install ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed node tmux zoxide
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" -}}
-#!/bin/zsh
+#!/bin/bash
 echo "Installing System Packages (Apt)..."
 sudo apt update
 sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake nodejs tmux zoxide -y --allow-change-held-packages

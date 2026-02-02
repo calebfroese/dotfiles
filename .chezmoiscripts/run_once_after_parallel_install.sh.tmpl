@@ -1,9 +1,9 @@
 {{- if eq .chezmoi.os "darwin" "linux" -}}
-#!/bin/sh
+#!/bin/bash
 
 # Hash of dependent scripts to trigger re-run:
-# 01: {{ include ".chezmoiscripts/.scripts/01-system-packages.zsh.tmpl" | sha256sum }}
-# 02: {{ include ".chezmoiscripts/.scripts/02-shell-config.zsh.tmpl" | sha256sum }}
+# 01: {{ include ".chezmoiscripts/.scripts/01-system-packages.sh.tmpl" | sha256sum }}
+# 02: {{ include ".chezmoiscripts/.scripts/02-shell-config.sh.tmpl" | sha256sum }}
 
 SCRIPT_DIR="{{ .chezmoi.sourceDir }}/.chezmoiscripts/.scripts"
 
@@ -20,7 +20,7 @@ run_script() {
     if [ -f "$SCRIPT_DIR/$script_name" ]; then
         # Render and execute
         # We use 'cat' to read the source file, then 'chezmoi execute-template' to render it.
-        # We pipe to the specified interpreter (sh or zsh).
+        # We pipe to the specified interpreter (bash).
         cat "$SCRIPT_DIR/$script_name" | chezmoi execute-template | "$interpreter"
     else
         echo "Error: Script $script_name not found at $SCRIPT_DIR/$script_name"
@@ -36,15 +36,15 @@ fi
 echo "Starting Phased Parallel Installation..."
 
 # --- PHASE 1: Independent Tasks & Core Deps ---
-# Run with 'sh' because zsh might not be installed yet (e.g. fresh Linux)
+# Run with 'bash' because zsh might not be installed yet (e.g. fresh Linux)
 echo "--- Phase 01 (Core Deps) ---"
 pids=()
 
-for script in "$SCRIPT_DIR"/01-*.zsh.tmpl; do
+for script in "$SCRIPT_DIR"/01-*.sh.tmpl; do
     if [ -e "$script" ]; then
         base_name=$(basename "$script")
         echo "Starting: $base_name"
-        run_script "$base_name" "sh" &
+        run_script "$base_name" "bash" &
         pids+=($!)
     fi
 done
@@ -57,18 +57,12 @@ fi
 echo "✅ Phase 01 complete."
 
 # --- PHASE 2: Dependent Configuration ---
-# Run with 'zsh' because it should be installed now
 echo "--- Phase 02 (Configuration) ---"
 pids=()
 
-# Fallback to sh if zsh still isn't found (shouldn't happen if Phase 1 worked)
-INTERPRETER="zsh"
-if ! command -v zsh >/dev/null 2>&1; then
-    echo "⚠️ zsh not found despite Phase 1. Falling back to sh."
-    INTERPRETER="sh"
-fi
+INTERPRETER="bash"
 
-for script in "$SCRIPT_DIR"/02-*.zsh.tmpl; do
+for script in "$SCRIPT_DIR"/02-*.sh.tmpl; do
     if [ -e "$script" ]; then
         base_name=$(basename "$script")
         echo "Starting: $base_name"
