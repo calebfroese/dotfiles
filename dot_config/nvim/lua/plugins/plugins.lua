@@ -62,11 +62,6 @@ return {
       require("mason").setup()
       require("mason-nvim-dap").setup()
       require("mason-lspconfig").setup()
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          require("lspconfig")[server_name].setup({})
-        end,
-      })
 
       -- These will be automatically installed, keep in sync with expected formatters/lsp/dap etc
       local packages = {

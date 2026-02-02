@@ -7,7 +7,8 @@ return {
       require("fzf-lua").setup({
         fzf_colors = true,
         winopts = {
-          fullscreen = true,
+          height = 1,
+          width = 1,
           preview = {
             delay = 0,
           },
