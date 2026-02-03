@@ -1,14 +1,21 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 echo "Installing System Packages (Brew)..."
-brew install ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed node tmux zoxide
+brew install ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed node tmux zoxide python pipx efm-langserver hashicorp/tap/terraform-ls
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 echo "Installing System Packages (Apt)..."
 sudo apt update
-sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake nodejs tmux zoxide -y --allow-change-held-packages
+
+# Install HashiCorp GPG key and repo for terraform-ls
+sudo apt install -y wget gpg lsb-release
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg --yes
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+
+sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake nodejs tmux zoxide python3-pip pipx terraform-ls -y --allow-change-held-packages
 
 # Bat link batcat -> batcat
 mkdir -p ~/.local/bin
