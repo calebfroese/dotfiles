@@ -1,16 +1,21 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 echo "Installing Neovim Nightly (macOS)..."
+mkdir -p ~/.local
 curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
-sudo rm -rf /opt/nvim-macos-arm64
-sudo tar -C /opt -xzf nvim-macos-arm64.tar.gz
+rm -rf ~/.local/nvim-macos-arm64
+tar -C ~/.local -xzf nvim-macos-arm64.tar.gz
 rm nvim-macos-arm64.tar.gz
+ln -sf ~/.local/nvim-macos-arm64/bin/nvim ~/.local/bin/nvim
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 echo "Installing Neovim Nightly (Linux)..."
+mkdir -p ~/.local
 curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
-sudo rm -rf /opt/nvim
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+rm -rf ~/.local/nvim-linux-x86_64
+tar -C ~/.local -xzf nvim-linux-x86_64.tar.gz
+rm nvim-linux-x86_64.tar.gz
+ln -sf ~/.local/nvim-linux-x86_64/bin/nvim ~/.local/bin/nvim
 {{- end }}

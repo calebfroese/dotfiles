@@ -31,11 +31,6 @@ run_script() {
     fi
 }
 
-# Refresh sudo credentials
-if command -v sudo >/dev/null 2>&1; then
-    sudo -v
-fi
-
 echo "Starting Phased Parallel Installation..."
 
 # --- PHASE 1: Independent Tasks & Core Deps ---
