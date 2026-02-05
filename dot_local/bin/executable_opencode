@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "opencode-v1.1.51",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 33960160,
+      "hash": "sha256",
+      "digest": "c6688c38094976d3cece7497869cae78fd899f71eb9d2f45cfa752e604ab7be3",
+      "format": "zip",
+      "path": "opencode",
+      "providers": [
+        {
+          "url": "https://github.com/anomalyco/opencode/releases/download/v1.1.51/opencode-darwin-arm64.zip"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 51842897,
+      "hash": "sha256",
+      "digest": "9b09b4cd20beed42c3308267f1f663f1f79c76a7e6e0e9bdfc8d05536430628e",
+      "format": "tar.gz",
+      "path": "opencode",
+      "providers": [
+        {
+          "url": "https://github.com/anomalyco/opencode/releases/download/v1.1.51/opencode-linux-x64.tar.gz"
+        }
+      ]
+    }
+  }
+}

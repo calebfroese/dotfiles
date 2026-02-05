@@ -1,0 +1,29 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "black-v26.1.0",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 11418544,
+      "hash": "sha256",
+      "digest": "b901eef9ba88d04aec403a4b9fd0502409438c539b281d98db84b49811b6627f",
+      "path": "black",
+      "providers": [
+        {
+          "url": "https://github.com/psf/black/releases/download/26.1.0/black_macos"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 27082720,
+      "hash": "sha256",
+      "digest": "af8ee6c1cf236f4be8bc97eaab4e4a8cd57d4befb9e846b3602a8b635a0f6a6b",
+      "path": "black",
+      "providers": [
+        {
+          "url": "https://github.com/psf/black/releases/download/26.1.0/black_linux"
+        }
+      ]
+    }
+  }
+}

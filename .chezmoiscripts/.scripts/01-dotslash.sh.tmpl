@@ -1,0 +1,15 @@
+#!/bin/bash
+echo "Installing DotSlash..."
+mkdir -p ~/.local/bin
+
+DOTSLASH_VERSION="0.5.8"
+
+{{- if eq .chezmoi.os "darwin" }}
+DOTSLASH_URL="https://github.com/facebook/dotslash/releases/download/v${DOTSLASH_VERSION}/dotslash-macos-arm64.v${DOTSLASH_VERSION}.tar.gz"
+{{- else if eq .chezmoi.os "linux" }}
+DOTSLASH_URL="https://github.com/facebook/dotslash/releases/download/v${DOTSLASH_VERSION}/dotslash-ubuntu-22.04.x86_64.v${DOTSLASH_VERSION}.tar.gz"
+{{- end }}
+
+curl -fsSL "$DOTSLASH_URL" | tar -xz -C ~/.local/bin dotslash
+chmod +x ~/.local/bin/dotslash
+echo "DotSlash installed: $(~/.local/bin/dotslash --version)"

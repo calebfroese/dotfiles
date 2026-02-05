@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "starship-v1.24.2",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 3870662,
+      "hash": "sha256",
+      "digest": "d3a0da21374962625a2ee992110979bc1fa33424d7b6aea58a70405e26544fd9",
+      "format": "tar.gz",
+      "path": "starship",
+      "providers": [
+        {
+          "url": "https://github.com/starship/starship/releases/download/v1.24.2/starship-aarch64-apple-darwin.tar.gz"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 4996134,
+      "hash": "sha256",
+      "digest": "00ff3c1f8ffb59b5c15d4b44c076bcca04d92cf0055c86b916248c14f3ae714a",
+      "format": "tar.gz",
+      "path": "starship",
+      "providers": [
+        {
+          "url": "https://github.com/starship/starship/releases/download/v1.24.2/starship-x86_64-unknown-linux-musl.tar.gz"
+        }
+      ]
+    }
+  }
+}
