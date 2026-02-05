@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "terraform-ls-v0.38.3",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 26039932,
+      "hash": "sha256",
+      "digest": "dab333c067caba930150d9ecb5116fd04e81dfaed09c977d6c9a70cd3aa4903c",
+      "format": "zip",
+      "path": "terraform-ls",
+      "providers": [
+        {
+          "url": "https://releases.hashicorp.com/terraform-ls/0.38.3/terraform-ls_0.38.3_darwin_arm64.zip"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 26261644,
+      "hash": "sha256",
+      "digest": "42be7b55640630baaf62186349e724e59f34281db9665578a427d7692f2864d2",
+      "format": "zip",
+      "path": "terraform-ls",
+      "providers": [
+        {
+          "url": "https://releases.hashicorp.com/terraform-ls/0.38.3/terraform-ls_0.38.3_linux_amd64.zip"
+        }
+      ]
+    }
+  }
+}

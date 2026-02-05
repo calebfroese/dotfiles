@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "lnav-v0.13.2",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 12491104,
+      "hash": "sha256",
+      "digest": "493f4050fd5a6e29682e13080db4910cc4632cebeab1444f7a89cf70c5569bb0",
+      "format": "zip",
+      "path": "lnav-0.13.2/lnav",
+      "providers": [
+        {
+          "url": "https://github.com/tstack/lnav/releases/download/v0.13.2/lnav-0.13.2-aarch64-macos.zip"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 36168713,
+      "hash": "sha256",
+      "digest": "95ad9b72e2fb437db788682658d84fd2a42f1e615f006904dec3b217aa05d876",
+      "format": "zip",
+      "path": "lnav-0.13.2/lnav",
+      "providers": [
+        {
+          "url": "https://github.com/tstack/lnav/releases/download/v0.13.2/lnav-0.13.2-linux-musl-x86_64.zip"
+        }
+      ]
+    }
+  }
+}

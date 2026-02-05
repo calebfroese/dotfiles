@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "fzf-v0.67.0",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 1750013,
+      "hash": "sha256",
+      "digest": "b7f34c964d8e52c471c933cef8ec43dc71997c266cafafd1b013bed10fc229a1",
+      "format": "tar.gz",
+      "path": "fzf",
+      "providers": [
+        {
+          "url": "https://github.com/junegunn/fzf/releases/download/v0.67.0/fzf-0.67.0-darwin_arm64.tar.gz"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 1801722,
+      "hash": "sha256",
+      "digest": "4be08018ca37b32518c608741933ea335a406de3558242b60619e98f25be2be1",
+      "format": "tar.gz",
+      "path": "fzf",
+      "providers": [
+        {
+          "url": "https://github.com/junegunn/fzf/releases/download/v0.67.0/fzf-0.67.0-linux_amd64.tar.gz"
+        }
+      ]
+    }
+  }
+}

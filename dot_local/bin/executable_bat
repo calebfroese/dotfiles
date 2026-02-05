@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "bat-v0.26.1",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 3216703,
+      "hash": "sha256",
+      "digest": "e30beff26779c9bf60bb541e1d79046250cb74378f2757f8eb250afddb19e114",
+      "format": "tar.gz",
+      "path": "bat-v0.26.1-aarch64-apple-darwin/bat",
+      "providers": [
+        {
+          "url": "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-aarch64-apple-darwin.tar.gz"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 3584928,
+      "hash": "sha256",
+      "digest": "0dcd8ac79732c0d5b136f11f4ee00e581440e16a44eab5b3105b611bbf2cf191",
+      "format": "tar.gz",
+      "path": "bat-v0.26.1-x86_64-unknown-linux-musl/bat",
+      "providers": [
+        {
+          "url": "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_64-unknown-linux-musl.tar.gz"
+        }
+      ]
+    }
+  }
+}

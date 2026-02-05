@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 echo "Installing System Packages (Brew)..."
-brew install ripgrep fd fzf lnav go bat jq luarocks cmake gnu-sed node tmux zoxide efm-langserver terraform-ls
+brew install go cmake gnu-sed node tmux efm-langserver terraform-ls
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" -}}
@@ -15,9 +15,7 @@ wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/sha
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update
 
-sudo apt install snapd fd-find ripgrep fzf lnav golang-go bat jq luarocks cmake nodejs tmux zoxide terraform-ls -y --allow-change-held-packages
+sudo apt install snapd golang-go cmake nodejs tmux terraform-ls -y --allow-change-held-packages
 
-# Bat link batcat -> batcat
-mkdir -p ~/.local/bin
-ln -s /usr/bin/batcat ~/.local/bin/bat
+
 {{- end }}
