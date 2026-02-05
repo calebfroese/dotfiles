@@ -5,6 +5,7 @@
 # 01: {{ include ".chezmoiscripts/.scripts/01-system-packages.sh.tmpl" | sha256sum }}
 # 02: {{ include ".chezmoiscripts/.scripts/02-shell-config.sh.tmpl" | sha256sum }}
 # 02-pip: {{ include ".chezmoiscripts/.scripts/02-pip-tools.sh.tmpl" | sha256sum }}
+# 02-npm: {{ include ".chezmoiscripts/.scripts/02-npm-tools.sh.tmpl" | sha256sum }}
 
 
 SCRIPT_DIR="{{ .chezmoi.sourceDir }}/.chezmoiscripts/.scripts"

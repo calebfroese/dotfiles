@@ -1,28 +1,20 @@
 local M = { src = "https://github.com/neovim/nvim-lspconfig" }
 
 function M.setup()
-	vim.lsp.enable("terraformls")
 	vim.lsp.config("terraformls", {
-		root_dir = function(fname)
-			if type(fname) == "number" then
-				fname = vim.api.nvim_buf_get_name(fname)
-			end
-			local root_files = vim.fs.find({ "BUILD.bazel" }, { path = fname, upward = true, limit = 1 })
-			if root_files[1] then
-				return vim.fs.dirname(root_files[1])
-			end
-			print("nope")
-			-- local git_root = vim.fs.find(".git", { path = fname, upward = true, limit = 1 })
-			-- if git_root[1] then
-			-- 	return vim.fs.dirname(git_root[1])
-			-- end
-		end,
+		filetypes = { "terraform", "terraform-vars", "tf" },
+		root_markers = { "*.tfvars" },
+		settings = {
+			terraform = { ignoreSingleFileWarning = true },
+		},
 	})
+	vim.lsp.enable("terraformls")
 	vim.lsp.enable("gopls")
 
 	-- Python
-	vim.lsp.enable({ "pyright", "efm" })
+	vim.lsp.enable("pyright")
 	vim.lsp.config("efm", {
+		filetypes = { "python" },
 		init_options = { documentFormatting = true, documentRangeFormatting = true },
 		settings = {
 			rootMarkers = { ".git/" },
@@ -33,6 +25,7 @@ function M.setup()
 			},
 		},
 	})
+	vim.lsp.enable("efm")
 
 	-- Lua
 	vim.lsp.enable("lua_ls")
@@ -49,6 +42,9 @@ function M.setup()
 			},
 		},
 	})
+
+	-- TypeScript/JavaScript
+	vim.lsp.enable("ts_ls")
 end
 
 if ... then
