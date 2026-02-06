@@ -1,0 +1,31 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "gh-v2.86.0",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 13006629,
+      "hash": "sha256",
+      "digest": "bde753978a352c5ae6c4abec47334d516e82807af20c9dbbd45507a5a0aedaaa",
+      "format": "zip",
+      "path": "gh_2.86.0_macOS_arm64/bin/gh",
+      "providers": [
+        {
+          "url": "https://github.com/cli/cli/releases/download/v2.86.0/gh_2.86.0_macOS_arm64.zip"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 13627589,
+      "hash": "sha256",
+      "digest": "f3b08bd6a28420cc2229b0a1a687fa25f2b838d3f04b297414c1041ca68103c7",
+      "format": "tar.gz",
+      "path": "gh_2.86.0_linux_amd64/bin/gh",
+      "providers": [
+        {
+          "url": "https://github.com/cli/cli/releases/download/v2.86.0/gh_2.86.0_linux_amd64.tar.gz"
+        }
+      ]
+    }
+  }
+}
