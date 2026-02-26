@@ -16,9 +16,9 @@
       ]
     },
     "linux-x86_64": {
-      "size": 2006403,
+      "size": 2263077,
       "hash": "sha256",
-      "digest": "d2aa9e4ff17d9c65bef7ba08b03a9b6eaca90b5b10e0f6f49fee9b849270cb48",
+      "digest": "1c9297be4a084eea7ecaedf93eb03d058d6faae29bbc57ecdaf5063921491599",
       "format": "tar.gz",
       "path": "ripgrep-15.1.0-x86_64-unknown-linux-musl/rg",
       "providers": [
