@@ -2,6 +2,8 @@
 #!/bin/bash
 echo "Installing System Packages (Brew)..."
 brew install go cmake gnu-sed node tmux efm-langserver
+brew install --cask anybar
+launchctl load ~/Library/LaunchAgents/com.user.anybar.plist 2>/dev/null || true
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" -}}

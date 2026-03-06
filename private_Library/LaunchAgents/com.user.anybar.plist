@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.anybar</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>ANYBAR_INIT</key>
+        <string>hollow</string>
+    </dict>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/AnyBar.app/Contents/MacOS/AnyBar</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>
