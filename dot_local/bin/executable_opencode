@@ -1,29 +1,29 @@
 #!/usr/bin/env dotslash
 
 {
-  "name": "opencode-v1.1.51",
+  "name": "opencode-v1.2.27",
   "platforms": {
     "macos-aarch64": {
-      "size": 33960160,
+      "size": 28598709,
       "hash": "sha256",
-      "digest": "c6688c38094976d3cece7497869cae78fd899f71eb9d2f45cfa752e604ab7be3",
+      "digest": "fa680fa79086c7509d3a2c21e49c9264b803da7c0f1b7807ed842b8e37325597",
       "format": "zip",
       "path": "opencode",
       "providers": [
         {
-          "url": "https://github.com/anomalyco/opencode/releases/download/v1.1.51/opencode-darwin-arm64.zip"
+          "url": "https://github.com/anomalyco/opencode/releases/download/v1.2.27/opencode-darwin-arm64.zip"
         }
       ]
     },
     "linux-x86_64": {
-      "size": 51842897,
+      "size": 46357676,
       "hash": "sha256",
-      "digest": "9b09b4cd20beed42c3308267f1f663f1f79c76a7e6e0e9bdfc8d05536430628e",
+      "digest": "6fe3820b145857f7ff507d2826058b7acf1fce8258def1498468dd43809e69e8",
       "format": "tar.gz",
       "path": "opencode",
       "providers": [
         {
-          "url": "https://github.com/anomalyco/opencode/releases/download/v1.1.51/opencode-linux-x64.tar.gz"
+          "url": "https://github.com/anomalyco/opencode/releases/download/v1.2.27/opencode-linux-x64.tar.gz"
         }
       ]
     }
