@@ -1,0 +1,29 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "ibazel-v0.28.1",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 8054738,
+      "hash": "sha256",
+      "digest": "b91f0808f882e148f6307bdd56af3956f3e823ec0d3c4c647a3f908f4bdf26cb",
+      "path": "ibazel_darwin_arm64",
+      "providers": [
+        {
+          "url": "https://github.com/bazelbuild/bazel-watcher/releases/download/v0.28.1/ibazel_darwin_arm64"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 8237208,
+      "hash": "sha256",
+      "digest": "5e55e1358b28f30248b4468ad34c4ae078cdbdd7c141a15757c44384409b0a18",
+      "path": "ibazel_linux_amd64",
+      "providers": [
+        {
+          "url": "https://github.com/bazelbuild/bazel-watcher/releases/download/v0.28.1/ibazel_linux_amd64"
+        }
+      ]
+    }
+  }
+}
