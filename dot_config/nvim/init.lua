@@ -17,6 +17,8 @@ for _, pkg in ipairs(plugins) do
   pkg.setup()
 end
 
+require("plugin-ethereal-annotations").setup()
+
 
 -- Absolutely hate that :help screws up whatever split panes I have
 -- This treats :help similar to :e, opening in the active pane

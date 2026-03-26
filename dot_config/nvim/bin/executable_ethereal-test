@@ -1,0 +1,105 @@
+#!/usr/bin/env -S nvim -l
+
+local storage = vim.fn.stdpath("data") .. "/ethereal-annotations"
+local test_dir, test_file = "/tmp/ethereal-test", "/tmp/ethereal-test/test.lua"
+local passed, failed = 0, 0
+
+local function test(name, fn)
+  local ok, err = pcall(fn)
+  if ok then print("✓ " .. name) passed = passed + 1
+  else print("✗ " .. name .. "\n  " .. tostring(err)) failed = failed + 1 end
+end
+
+local function contains(s, p) return s:find(p, 1, true) end
+local function write(content) vim.fn.writefile(vim.split(content, "\n"), test_file) end
+local function hash() return vim.fn.sha256(table.concat(vim.fn.readfile(test_file), "\n")) end
+local function exists(h) return vim.fn.filereadable(storage .. "/" .. h .. ".txt") == 1 end
+local function run(args) local h = io.popen("~/.config/nvim/bin/ethereal " .. args .. " 2>&1") local o = h:read("*a") h:close() return o end
+
+local function save(h, annotations)
+  local lines = { test_file }
+  for _, a in ipairs(annotations) do
+    lines[#lines + 1] = (a.s == a.e and a.s or (a.s .. "-" .. a.e)) .. ":" .. a.comment
+  end
+  vim.fn.writefile(lines, storage .. "/" .. h .. ".txt")
+end
+
+local function setup()
+  vim.fn.mkdir(test_dir, "p")
+  vim.fn.mkdir(storage, "p")
+  for _, f in ipairs(vim.fn.glob(storage .. "/*.txt", false, true)) do vim.fn.delete(f) end
+end
+
+local function teardown()
+  vim.fn.delete(test_dir, "rf")
+  for _, f in ipairs(vim.fn.glob(storage .. "/*.txt", false, true)) do vim.fn.delete(f) end
+end
+
+setup()
+
+test("list empty", function() assert(contains(run("list"), "No annotations")) end)
+test("help", function() local o = run("help") assert(contains(o, "ethereal") and contains(o, "list")) end)
+
+test("list shows valid", function()
+  write("a\nb\nc") save(hash(), {{ s = 1, e = 2, comment = "fix" }})
+  local o = run("list")
+  assert(contains(o, test_file) and contains(o, "1-2") and contains(o, "fix"))
+end)
+
+test("list cleans stale", function()
+  write("a\nb\nc") local old = hash() save(old, {{ s = 1, e = 1, comment = "old" }})
+  write("a\nb\nc\nd")
+  assert(contains(run("list"), "No annotations") and not exists(old))
+end)
+
+test("filter by path", function()
+  write("x") save(hash(), {{ s = 1, e = 1, comment = "yes" }})
+  assert(contains(run("list --file " .. test_file), "yes"))
+  assert(contains(run("list --file nope.lua"), "No annotations"))
+end)
+
+test("filter by basename", function()
+  write("x") save(hash(), {{ s = 1, e = 1, comment = "base" }})
+  assert(contains(run("list --file test.lua"), "base"))
+end)
+
+test("clear --all", function()
+  write("x") local h = hash() save(h, {{ s = 1, e = 1, comment = "bye" }})
+  run("clear --all")
+  assert(contains(run("list"), "No annotations") and not exists(h))
+end)
+
+test("clear --file", function()
+  write("x") local h = hash() save(h, {{ s = 1, e = 1, comment = "bye" }})
+  run("clear --file " .. test_file)
+  assert(not exists(h))
+end)
+
+test("clear requires arg", function() assert(contains(run("clear"), "Error")) end)
+
+test("single line format", function()
+  write("x") save(hash(), {{ s = 1, e = 1, comment = "one" }})
+  local o = run("list")
+  assert(contains(o, ":1:") and not contains(o, "1-1"))
+end)
+
+test("range format", function()
+  write("a\nb\nc") save(hash(), {{ s = 2, e = 3, comment = "range" }})
+  assert(contains(run("list"), "2-3"))
+end)
+
+test("deleted file cleanup", function()
+  write("x") local h = hash() save(h, {{ s = 1, e = 1, comment = "orphan" }})
+  vim.fn.delete(test_file)
+  assert(contains(run("list"), "No annotations") and not exists(h))
+end)
+
+test("multiple annotations", function()
+  write("a\nb\nc\nd\ne") save(hash(), {{ s = 1, e = 1, comment = "first" }, { s = 3, e = 4, comment = "second" }})
+  local o = run("list")
+  assert(contains(o, "first") and contains(o, "second"))
+end)
+
+teardown()
+print(string.format("\nTests: %d passed, %d failed", passed, failed))
+if failed > 0 then os.exit(1) end
