@@ -9,6 +9,7 @@ local plugins = {
   require("plugin-nvim-lspconfig"),
   require("plugin-vscode"),
   require("plugin-mini-completion"),
+  require("plugin-vim-fugitive"),
 }
 
 vim.pack.add(plugins)
