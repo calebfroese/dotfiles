@@ -1,7 +1,11 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
-echo "Installing System Packages (Brew)..."
-brew install go cmake gnu-sed node tmux efm-langserver
+echo "Installing System Packages..."
+
+export PATH="/opt/zerobrew/bin:$PATH"
+
+zb install go cmake gnu-sed node tmux efm-langserver chafa
+
 brew install --cask anybar
 launchctl load ~/Library/LaunchAgents/com.user.anybar.plist 2>/dev/null || true
 {{- end }}
@@ -11,7 +15,7 @@ launchctl load ~/Library/LaunchAgents/com.user.anybar.plist 2>/dev/null || true
 echo "Installing System Packages (Apt)..."
 sudo apt update
 
-sudo apt install snapd golang-go cmake nodejs tmux -y --allow-change-held-packages
+sudo apt install snapd golang-go cmake nodejs tmux chafa -y --allow-change-held-packages
 
 
 {{- end }}

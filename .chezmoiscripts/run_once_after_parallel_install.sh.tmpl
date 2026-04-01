@@ -2,6 +2,7 @@
 #!/bin/bash
 
 # Hash of dependent scripts to trigger re-run:
+# 00-zerobrew: {{ include ".chezmoiscripts/.scripts/00-zerobrew.sh.tmpl" | sha256sum }}
 # 01-system: {{ include ".chezmoiscripts/.scripts/01-system-packages.sh.tmpl" | sha256sum }}
 # 01-dotslash: {{ include ".chezmoiscripts/.scripts/01-dotslash.sh.tmpl" | sha256sum }}
 # 02-shell: {{ include ".chezmoiscripts/.scripts/02-shell-config.sh.tmpl" | sha256sum }}
@@ -32,6 +33,21 @@ run_script() {
 }
 
 echo "Starting Phased Parallel Installation..."
+
+# --- PHASE 0: Package Manager Bootstrap ---
+echo "--- Phase 00 (Package Manager Bootstrap) ---"
+for script in "$SCRIPT_DIR"/00-*.sh.tmpl; do
+    if [ -e "$script" ]; then
+        base_name=$(basename "$script")
+        echo "Starting: $base_name"
+        run_script "$base_name" "bash"
+        if [ $? -ne 0 ]; then
+            echo "❌ Phase 00 failed. Aborting."
+            exit 1
+        fi
+    fi
+done
+echo "✅ Phase 00 complete."
 
 # --- PHASE 1: Independent Tasks & Core Deps ---
 # Run with 'bash' because zsh might not be installed yet (e.g. fresh Linux)
@@ -77,4 +93,3 @@ fi
 
 echo "✨ All Phases Complete!"
 {{- end -}}
-

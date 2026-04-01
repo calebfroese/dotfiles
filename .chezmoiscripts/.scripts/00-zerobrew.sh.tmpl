@@ -1,0 +1,12 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+echo "Installing zerobrew..."
+
+if ! command -v zb &>/dev/null; then
+    curl -fsSL https://zerobrew.rs/install | bash
+
+    export PATH="/opt/zerobrew/bin:$PATH"
+fi
+
+echo "zerobrew: $(zb --version)"
+{{- end }}
