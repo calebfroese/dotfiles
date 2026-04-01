@@ -3,6 +3,18 @@ local M = { src = "https://github.com/ibhagwan/fzf-lua" }
 function M.setup()
 	require('fzf-lua').setup({
 		fzf_colors = true,
+		previewers = {
+			builtin = {
+				extensions = {
+					["png"] = { "chafa", "{file}", "--format=symbols" },
+					["jpg"] = { "chafa", "{file}", "--format=symbols" },
+					["jpeg"] = { "chafa", "{file}", "--format=symbols" },
+					["gif"] = { "chafa", "{file}", "--format=symbols" },
+					["webp"] = { "chafa", "{file}", "--format=symbols" },
+					["svg"] = { "chafa", "{file}", "--format=symbols" },
+				},
+			},
+		},
 		winopts = {
 			height = 1,
 			width = 1,

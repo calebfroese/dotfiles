@@ -9,6 +9,7 @@ local plugins = {
   require("plugin-nvim-lspconfig"),
   require("plugin-vscode"),
   require("plugin-mini-completion"),
+  require("plugin-mini-icons"),
   require("plugin-vim-fugitive"),
 }
 
@@ -57,6 +58,32 @@ function _G.custom_tablabel()
   s = s .. '%#TabLineFill#%T'
   return s
 end
+
+-- Preview images in-buffer via chafa using a virtual terminal
+vim.api.nvim_create_autocmd("BufReadCmd", {
+  group = vim.api.nvim_create_augroup("ChafaImageViewer", { clear = true }),
+  pattern = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.svg", "*.bmp", "*.ico" },
+  callback = function(args)
+    local file = vim.fn.fnamemodify(args.file, ":p")
+    local buf = args.buf
+    vim.bo[buf].buftype = "nofile"
+    vim.bo[buf].swapfile = false
+    vim.bo[buf].bufhidden = "wipe"
+
+    local chan = vim.api.nvim_open_term(buf, {})
+    local win = vim.api.nvim_get_current_win()
+    local width = vim.api.nvim_win_get_width(win)
+    local height = vim.api.nvim_win_get_height(win)
+    local output = vim.fn.system({ "chafa", "--format=symbols", "--animate=off",
+      "--size=" .. width .. "x" .. height, file })
+
+    vim.api.nvim_chan_send(chan, output)
+    vim.defer_fn(function()
+      vim.cmd("stopinsert")
+      vim.api.nvim_win_set_cursor(win, { 1, 0 })
+    end, 10)
+  end,
+})
 
 -- Force custom tabline after all plugins load
 vim.api.nvim_create_autocmd("VimEnter", {
