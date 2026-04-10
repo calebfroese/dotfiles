@@ -39,8 +39,9 @@ function M.prompt(callback)
   local buf = vim.api.nvim_create_buf(false, true)
   vim.bo[buf].buftype, vim.bo[buf].bufhidden = "nofile", "wipe"
 
+  local width = vim.api.nvim_win_get_width(0)
   local win = vim.api.nvim_open_win(buf, true, {
-    relative = "cursor", width = 60, height = 1, row = 1, col = 0,
+    relative = "cursor", width = width, height = 1, row = 1, col = 0,
     style = "minimal", border = "rounded",
   })
 
