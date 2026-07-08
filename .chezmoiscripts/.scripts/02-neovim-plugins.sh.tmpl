@@ -1,11 +1,5 @@
-{{- if eq .chezmoi.os "darwin" -}}
+{{- if eq .chezmoi.os "darwin" "linux" -}}
 #!/bin/bash
 echo "Downloading Neovim plugins..."
-~/.local/bin/nvim --headless "+packspec download" +qa
-{{- end }}
-
-{{- if eq .chezmoi.os "linux" -}}
-#!/bin/bash
-echo "Downloading Neovim plugins..."
-~/.local/bin/nvim --headless "+packspec download" +qa
+~/.local/bin/nvim --headless -c "lua vim.pack.update()" +qa
 {{- end }}

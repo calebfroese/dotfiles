@@ -4,6 +4,26 @@ echo "Installing System Packages..."
 
 export PATH="/opt/zerobrew/bin:$PATH"
 
+# Remove stale prefix symlinks for packages prone to link conflicts on upgrade.
+# Only targets the specific files known to conflict, avoids slow find traversal.
+for pkg in giflib chafa llhttp node; do
+    cellar="/opt/zerobrew/Cellar/$pkg"
+    if [ -d "$cellar" ]; then
+        for version_dir in "$cellar"/*/; do
+            for f in "$version_dir"bin/* "$version_dir"lib/* "$version_dir"include/* "$version_dir"share/man/man1/*; do
+                [ -e "$f" ] || continue
+                name=$(basename "$f")
+                for prefix_dir in /opt/zerobrew/bin /opt/zerobrew/lib /opt/zerobrew/include /opt/zerobrew/share/man/man1; do
+                    link="$prefix_dir/$name"
+                    if [ -L "$link" ]; then
+                        rm -f "$link"
+                    fi
+                done
+            done
+        done
+    fi
+done
+
 zb install go cmake gnu-sed node tmux efm-langserver chafa
 
 brew install --cask anybar

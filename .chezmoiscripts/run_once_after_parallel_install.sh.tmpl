@@ -5,8 +5,10 @@
 # 00-zerobrew: {{ include ".chezmoiscripts/.scripts/00-zerobrew.sh.tmpl" | sha256sum }}
 # 01-system: {{ include ".chezmoiscripts/.scripts/01-system-packages.sh.tmpl" | sha256sum }}
 # 01-dotslash: {{ include ".chezmoiscripts/.scripts/01-dotslash.sh.tmpl" | sha256sum }}
+# 01-neovim: {{ include ".chezmoiscripts/.scripts/01-neovim.sh.tmpl" | sha256sum }}
 # 02-shell: {{ include ".chezmoiscripts/.scripts/02-shell-config.sh.tmpl" | sha256sum }}
 # 02-npm: {{ include ".chezmoiscripts/.scripts/02-npm-tools.sh.tmpl" | sha256sum }}
+# 02-neovim-plugins: {{ include ".chezmoiscripts/.scripts/02-neovim-plugins.sh.tmpl" | sha256sum }}
 
 
 SCRIPT_DIR="{{ .chezmoi.sourceDir }}/.chezmoiscripts/.scripts"

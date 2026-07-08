@@ -1,5 +1,5 @@
 {{- if eq .chezmoi.os "darwin" "linux" -}}
 #!/bin/bash
 echo "Installing npm global packages..."
-npm install -g typescript-language-server typescript
+/opt/zerobrew/bin/npm install -g typescript-language-server typescript
 {{- end }}
