@@ -8,23 +8,47 @@ function M.setup(opts)
   hl_fg = opts.comment_fg or "#ff8800"
   vim.api.nvim_set_hl(0, "EtherealHighlight", { bg = hl_bg })
   vim.api.nvim_set_hl(0, "EtherealComment", { fg = hl_fg, bg = hl_bg, italic = true })
+  vim.api.nvim_set_hl(0, "EtherealSign", { fg = hl_fg })
 end
 
 function M.clear(bufnr)
   vim.api.nvim_buf_clear_namespace(bufnr or 0, ns, 0, -1)
 end
 
-function M.render(bufnr, annotations)
+-- Full-line highlight on a single 0-based row. line_hl_group paints the line
+-- when focused; the sign stays visible even in non-current diff windows.
+local function highlight_row(bufnr, row0)
+  vim.api.nvim_buf_set_extmark(bufnr, ns, row0, 0, {
+    line_hl_group = "EtherealHighlight",
+    sign_text = "▌",
+    sign_hl_group = "EtherealSign",
+    hl_eol = true,
+    priority = 200,
+  })
+end
+
+local function comment_above(bufnr, row0, comment)
+  vim.api.nvim_buf_set_extmark(bufnr, ns, row0, 0, {
+    virt_lines_above = true,
+    virt_lines = { { { comment, "EtherealComment" } } },
+    priority = 200,
+  })
+end
+
+---Repaint all annotations. Each item is a set of 0-based buffer rows to
+---highlight plus the comment shown above the first row. Callers translate file
+---lines to rows, so this is uniform across real files and diff views.
+---@param items { rows: integer[], comment: string }[]
+function M.render(bufnr, items)
   bufnr = bufnr or 0
   M.clear(bufnr)
-  for _, a in ipairs(annotations) do
-    for line = a.start_line - 1, a.end_line - 1 do
-      vim.api.nvim_buf_add_highlight(bufnr, ns, "EtherealHighlight", line, 0, -1)
+  for _, it in ipairs(items) do
+    for _, row0 in ipairs(it.rows) do
+      highlight_row(bufnr, row0)
     end
-    vim.api.nvim_buf_set_extmark(bufnr, ns, a.start_line - 1, 0, {
-      virt_lines_above = true,
-      virt_lines = { { { a.comment, "EtherealComment" } } },
-    })
+    if it.rows[1] then
+      comment_above(bufnr, it.rows[1], it.comment)
+    end
   end
 end
 

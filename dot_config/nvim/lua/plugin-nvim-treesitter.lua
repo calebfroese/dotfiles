@@ -3,7 +3,7 @@ local M = { src = "https://github.com/nvim-treesitter/nvim-treesitter" }
 function M.setup()
 	require('nvim-treesitter').setup()
 	require('nvim-treesitter').install({
-		"bash", "go", "html", "javascript", "java", "json", "lua", "markdown",
+		"bash", "diff", "go", "html", "javascript", "java", "json", "lua", "markdown",
 		"markdown_inline", "python", "query", "regex", "tsx", "terraform",
 		"typescript", "vim", "yaml",
 	})

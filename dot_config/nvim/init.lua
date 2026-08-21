@@ -20,6 +20,7 @@ for _, pkg in ipairs(plugins) do
 end
 
 require("plugin-ethereal-annotations").setup()
+require("plugin-diffview").setup()
 
 
 -- Absolutely hate that :help screws up whatever split panes I have
