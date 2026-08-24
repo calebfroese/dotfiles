@@ -150,6 +150,37 @@ local function start_full_preview(buf)
   M.toggle_live_preview(buf)
 end
 
+---Find an existing diffview tab, if any.
+---@return integer|nil tabpage handle
+local function existing_diffview_tab()
+  for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+    local ok, marked = pcall(vim.api.nvim_tabpage_get_var, tab, "diffview")
+    if ok and marked then
+      return tab
+    end
+  end
+  return nil
+end
+
+---Enter a fresh single-window layout for the diffview. Reuses an existing
+---diffview tab (reducing it to one window) so repeated :GitDiff / :GitDiffBranch
+---never stack tabs; otherwise opens a new one.
+local function enter_diffview_tab()
+  local tab = existing_diffview_tab()
+  if tab and vim.api.nvim_tabpage_is_valid(tab) then
+    vim.api.nvim_set_current_tabpage(tab)
+    -- Collapse to a single window and give it a throwaway buffer, so the normal
+    -- skeleton flow can rebuild the layout as if the tab were new.
+    vim.cmd("only")
+    local scratch = vim.api.nvim_create_buf(false, true)
+    vim.bo[scratch].bufhidden = "wipe"
+    vim.api.nvim_win_set_buf(0, scratch)
+  else
+    vim.cmd("tabnew")
+  end
+  vim.t.diffview = true
+end
+
 ---:GitDiff entry point. Shows three empty panes instantly, primes the git
 ---snapshot asynchronously, then replaces the skeleton with the real list + live
 ---Full Diff preview. Invalidates the snapshot so it reflects current state.
@@ -170,9 +201,10 @@ function M.open(opts)
   else
     git.set_base(root, "HEAD")
   end
-  -- Own tab: the whole view lives here, and :q on any pane closes the tab.
-  vim.cmd("tabnew")
-  vim.t.diffview = true
+  -- One diffview tab, reused: the whole view lives here, and :q on any pane
+  -- closes the tab.
+  enter_diffview_tab()
+  vim.t.diffview_title = opts.branch and "Git Diff (branch)" or "Git Diff"
   ui.open_skeleton()
   local list_win = vim.api.nvim_get_current_win()
 

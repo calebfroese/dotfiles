@@ -46,15 +46,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
 function _G.custom_tablabel()
   local s = ''
   for i = 1, vim.fn.tabpagenr('$') do
-    local cwd = vim.fn.getcwd(-1, i)
-    local fullpath = vim.fn.fnamemodify(cwd, ':~')  -- Full path from home
+    -- Diffview tabs advertise a title; otherwise show the tab's cwd.
+    local label
+    local tab = vim.api.nvim_list_tabpages()[i]
+    local ok, title = pcall(vim.api.nvim_tabpage_get_var, tab, 'diffview_title')
+    if ok and title and title ~= '' then
+      label = title
+    else
+      label = vim.fn.fnamemodify(vim.fn.getcwd(-1, i), ':~')
+    end
     s = s .. '%' .. i .. 'T'
     if i == vim.fn.tabpagenr() then
       s = s .. '%#TabLineSel#'
     else
       s = s .. '%#TabLine#'
     end
-    s = s .. ' ' .. fullpath .. ' '
+    s = s .. ' ' .. label .. ' '
   end
   s = s .. '%#TabLineFill#%T'
   return s

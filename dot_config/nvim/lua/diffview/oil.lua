@@ -8,8 +8,8 @@ local M = {}
 
 M.name = "diff"
 
--- Leading space sorts this synthetic entry before any real filename.
-M.FULL_DIFF = " Full Diff"
+-- Leading "*" sorts this synthetic entry before any real filename.
+M.FULL_DIFF = "* Full Diff"
 
 M.normalize_url = function(url, callback)
   callback(require("oil.util").addslash(url))
