@@ -35,7 +35,7 @@ local function pair_for_cursor_entry()
   local path = (entry.meta and entry.meta.git and entry.meta.git.path) or entry.name
   local left = git.head_lines(root, path)
   local right = git.worktree_lines(root, path)
-  local left_name = string.format("oil-diff://%s [HEAD]", path)
+  local left_name = string.format("oil-diff://%s [base]", path)
   local right_name = string.format("%s/%s", root, path)
   local right_real_path = root .. "/" .. path
   if git.is_binary(left) or git.is_binary(right) then
@@ -153,10 +153,22 @@ end
 ---:GitDiff entry point. Shows three empty panes instantly, primes the git
 ---snapshot asynchronously, then replaces the skeleton with the real list + live
 ---Full Diff preview. Invalidates the snapshot so it reflects current state.
-function M.open()
+---@param opts { branch?: boolean, base?: string }|nil  Diff against the branch's
+---merge-base (whole-branch diff incl. uncommitted) instead of HEAD.
+function M.open(opts)
+  opts = opts or {}
   local root = git.repo_root()
   if not root then
     return vim.notify("diffview: not inside a git repository", vim.log.levels.ERROR)
+  end
+  if opts.branch then
+    local mb = git.merge_base(root, opts.base)
+    if not mb then
+      return vim.notify("diffview: could not find a branch merge-base", vim.log.levels.ERROR)
+    end
+    git.set_base(root, mb)
+  else
+    git.set_base(root, "HEAD")
   end
   git.invalidate()
   ui.open_skeleton()

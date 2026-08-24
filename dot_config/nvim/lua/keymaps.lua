@@ -31,6 +31,10 @@ vim.keymap.set("n", "<C-S-Tab>", ":tabprevious<CR>")
 -- Map Ctrl+n to create new tab
 vim.keymap.set("n", "<C-n>", ":tabnew<CR>")
 
+-- Git diff views: gd = changes vs HEAD, gb = whole-branch diff (merge-base)
+vim.keymap.set("n", "<leader>gd", ":GitDiff<CR>")
+vim.keymap.set("n", "<leader>gb", ":GitDiffBranch<CR>")
+
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>q", ":q<CR>")
 vim.keymap.set("n", "<C-X>", ":update<CR> :source<CR>")

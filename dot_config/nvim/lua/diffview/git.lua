@@ -19,28 +19,54 @@ local function to_lines(s)
   return lines
 end
 
--- The three slow, independent queries that make up a snapshot.
-local SNAPSHOT_ARGS = {
-  { "status", "--porcelain=v1" },
-  { "diff", "--numstat", "HEAD" },
-  { "diff", "HEAD" },
-}
+-- Diff base ref per root: what the working tree is compared against. Defaults
+-- to HEAD (uncommitted changes only); the branch view sets it to the merge-base
+-- so the diff spans the whole branch plus uncommitted work.
+local base_ref = {}
 
----@param lines string[]
-local function parse_status(lines)
-  local changes = {}
-  for _, line in ipairs(lines) do
-    if #line >= 4 then
-      local rest = line:sub(4)
-      -- Renames/copies render as "old -> new"; keep the new path.
-      local arrow = rest:find(" %-> ")
-      if arrow then
-        rest = rest:sub(arrow + 4)
-      end
-      table.insert(changes, { path = rest, index = line:sub(1, 1), worktree = line:sub(2, 2) })
+---@param root string
+---@return string
+local function base_of(root)
+  return base_ref[root] or "HEAD"
+end
+
+---Set the diff base for `root` (e.g. "HEAD" or a merge-base sha). Invalidates
+---the cached snapshot so the next read reflects the new base.
+---@param root string
+---@param ref string
+function M.set_base(root, ref)
+  base_ref[root] = ref
+  M.invalidate()
+end
+
+---Merge-base of HEAD and `branch` (default "master"), i.e. where this branch
+---diverged. Falls back through common default-branch names.
+---@param root string
+---@param branch string|nil
+---@return string|nil
+function M.merge_base(root, branch)
+  local candidates = branch and { branch } or { "master", "main", "origin/HEAD" }
+  for _, b in ipairs(candidates) do
+    local out, code = git(root, { "merge-base", b, "HEAD" })
+    if code == 0 and out[1] and out[1] ~= "" then
+      return out[1]
     end
   end
-  return changes
+  return nil
+end
+
+-- The slow, independent queries that make up a snapshot, built per base.
+-- name-status vs the base gives the authoritative changed-file set + kind
+-- (works when base is a merge-base, where committed-on-branch files are clean
+-- vs HEAD and so absent from `git status`). status is still needed for
+-- untracked files. numstat supplies +/- line counts. diff is the hunk text.
+local function snapshot_args(base)
+  return {
+    { "status", "--porcelain=v1" },
+    { "diff", "--numstat", base },
+    { "diff", base },
+    { "diff", "--name-status", base },
+  }
 end
 
 ---@param lines string[]
@@ -55,8 +81,57 @@ local function parse_numstat(lines)
   return counts
 end
 
+-- Map `git diff --name-status` letters to the index/worktree marker pair that
+-- constants.classify understands. The base-side diff is a single axis, so the
+-- letter is placed in `index` and `worktree` is blank.
+---@param lines string[]
+local function parse_name_status(lines)
+  local changes = {}
+  for _, line in ipairs(lines) do
+    local letter, rest = line:match("^(%a)%d*%s+(.+)$")
+    if letter and rest then
+      -- Renames/copies are "old\tnew"; keep the new path.
+      local arrow = rest:find("\t")
+      local path = arrow and rest:sub(arrow + 1) or rest
+      table.insert(changes, { path = path, index = letter, worktree = " " })
+    end
+  end
+  return changes
+end
+
+-- Complete changed-file set for the snapshot: every file differing from the
+-- base (name-status), plus untracked files from `git status` (which the base
+-- diff cannot see because they are not tracked).
+local function build_changes(status_lines, name_status_lines)
+  local changes = parse_name_status(name_status_lines)
+  local seen = {}
+  for _, c in ipairs(changes) do
+    seen[c.path] = true
+  end
+  for _, line in ipairs(status_lines) do
+    if #line >= 4 then
+      local rest = line:sub(4)
+      local arrow = rest:find(" %-> ")
+      if arrow then
+        rest = rest:sub(arrow + 4)
+      end
+      local index, worktree = line:sub(1, 1), line:sub(2, 2)
+      -- Untracked (or otherwise unseen) files are not in the base diff.
+      if (index == "?" or worktree == "?") and not seen[rest] then
+        seen[rest] = true
+        table.insert(changes, { path = rest, index = index, worktree = worktree })
+      end
+    end
+  end
+  return changes
+end
+
 local function build_snapshot(out)
-  return { changes = parse_status(out[1]), counts = parse_numstat(out[2]), difftext = out[3] }
+  return {
+    changes = build_changes(out[1], out[4]),
+    counts = parse_numstat(out[2]),
+    difftext = out[3],
+  }
 end
 
 -- Cached snapshot, so the file list and the combined Full Diff (built moments
@@ -87,9 +162,10 @@ function M.snapshot(root)
   if snapshot_cache[root] then
     return snapshot_cache[root]
   end
+  local args = snapshot_args(base_of(root))
   local procs = {}
-  for i, args in ipairs(SNAPSHOT_ARGS) do
-    procs[i] = vim.system(vim.list_extend({ "git", "-C", root }, args), { text = true })
+  for i, a in ipairs(args) do
+    procs[i] = vim.system(vim.list_extend({ "git", "-C", root }, a), { text = true })
   end
   local out = {}
   for i, p in ipairs(procs) do
@@ -106,9 +182,10 @@ function M.snapshot_async(root, cb)
   if snapshot_cache[root] then
     return cb(snapshot_cache[root])
   end
-  local out, remaining = {}, #SNAPSHOT_ARGS
-  for i, args in ipairs(SNAPSHOT_ARGS) do
-    vim.system(vim.list_extend({ "git", "-C", root }, args), { text = true }, function(res)
+  local args = snapshot_args(base_of(root))
+  local out, remaining = {}, #args
+  for i, a in ipairs(args) do
+    vim.system(vim.list_extend({ "git", "-C", root }, a), { text = true }, function(res)
       out[i] = to_lines(res.stdout)
       remaining = remaining - 1
       if remaining == 0 then
@@ -121,10 +198,10 @@ function M.snapshot_async(root, cb)
   end
 end
 
----HEAD blob for `path`, or nil if absent at HEAD.
+---Base-side blob for `path`, or nil if absent at the base.
 ---@return string[]|nil
 function M.head_lines(root, path)
-  local lines, code = git(root, { "show", "HEAD:" .. path })
+  local lines, code = git(root, { "show", base_of(root) .. ":" .. path })
   return code == 0 and lines or nil
 end
 

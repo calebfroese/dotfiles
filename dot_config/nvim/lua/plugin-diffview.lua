@@ -23,7 +23,14 @@ function M.setup(opts)
 
   vim.api.nvim_create_user_command("GitDiff", function()
     require("diffview").open()
-  end, { desc = "Browse repo changes as a diff directory" })
+  end, { desc = "Browse repo changes vs HEAD as a diff directory" })
+
+  vim.api.nvim_create_user_command("GitDiffBranch", function(cmd)
+    require("diffview").open({ branch = true, base = cmd.args ~= "" and cmd.args or nil })
+  end, {
+    nargs = "?",
+    desc = "Browse whole-branch diff (merge-base to worktree, incl. uncommitted)",
+  })
 end
 
 return M
