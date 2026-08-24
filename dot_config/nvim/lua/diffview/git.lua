@@ -19,6 +19,14 @@ local function to_lines(s)
   return lines
 end
 
+-- Cached snapshot, so the file list and the combined Full Diff (built moments
+-- apart) share one parallel git batch. Invalidated when the base changes.
+local snapshot_cache = {}
+
+function M.invalidate()
+  snapshot_cache = {}
+end
+
 -- Diff base ref per root: what the working tree is compared against. Defaults
 -- to HEAD (uncommitted changes only); the branch view sets it to the merge-base
 -- so the diff spans the whole branch plus uncommitted work.
@@ -39,20 +47,74 @@ function M.set_base(root, ref)
   M.invalidate()
 end
 
----Merge-base of HEAD and `branch` (default "master"), i.e. where this branch
----diverged. Falls back through common default-branch names.
+-- Candidate base branches, best first. An explicit `branch` wins. Otherwise the
+-- local default branch — all comparison is against local refs, never the
+-- remote.
+---@param root string
+---@param branch string|nil
+---@return string[]
+local function base_candidates(root, branch)
+  if branch then
+    return { branch }
+  end
+  return { "main", "master" }
+end
+
+---Merge-base of HEAD and the local branch it forked from — where this branch's
+---own work begins.
 ---@param root string
 ---@param branch string|nil
 ---@return string|nil
 function M.merge_base(root, branch)
-  local candidates = branch and { branch } or { "master", "main", "origin/HEAD" }
-  for _, b in ipairs(candidates) do
+  for _, b in ipairs(base_candidates(root, branch)) do
     local out, code = git(root, { "merge-base", b, "HEAD" })
     if code == 0 and out[1] and out[1] ~= "" then
       return out[1]
     end
   end
   return nil
+end
+
+-- Candidate base branches, best first. An explicit `branch` wins. Otherwise the
+-- remote's own default (origin/HEAD, e.g. "origin/master") is authoritative;
+-- remote-tracking refs are preferred over local branches, which are often stale
+-- when you work off origin/*.
+---@param root string
+---@param branch string|nil
+---@return string[]
+local function base_candidates(root, branch)
+  if branch then
+    return { branch }
+  end
+  local list = {}
+  local sym = git(root, { "symbolic-ref", "--short", "refs/remotes/origin/HEAD" })
+  if sym[1] and sym[1] ~= "" then
+    list[#list + 1] = sym[1] -- e.g. "origin/master"
+  end
+  vim.list_extend(list, { "origin/main", "origin/master", "main", "master" })
+  return list
+end
+
+---Merge-base of HEAD and the branch it forked from — where this branch's own
+---work begins. Resolves the base branch robustly (default branch, remote refs
+---preferred) and, among resolvable candidates, picks the merge-base nearest to
+---HEAD so a stale ref cannot drag in unrelated history.
+---@param root string
+---@param branch string|nil
+---@return string|nil
+function M.merge_base(root, branch)
+  local best, best_ahead
+  for _, b in ipairs(base_candidates(root, branch)) do
+    local out, code = git(root, { "merge-base", b, "HEAD" })
+    local mb = code == 0 and out[1]
+    if mb and mb ~= "" then
+      local ahead = commits_ahead(root, mb)
+      if not best_ahead or ahead < best_ahead then
+        best, best_ahead = mb, ahead
+      end
+    end
+  end
+  return best
 end
 
 -- The slow, independent queries that make up a snapshot, built per base.
@@ -134,14 +196,6 @@ local function build_snapshot(out)
   }
 end
 
--- Cached snapshot, so the file list and the combined Full Diff (built moments
--- apart) share one parallel git batch. Invalidated per :GitDiff.
-local snapshot_cache = {}
-
-function M.invalidate()
-  snapshot_cache = {}
-end
-
 ---@param path string|nil
 ---@return string|nil
 function M.repo_root(path)
@@ -200,7 +254,7 @@ end
 
 ---Base-side blob for `path`, or nil if absent at the base.
 ---@return string[]|nil
-function M.head_lines(root, path)
+function M.base_lines(root, path)
   local lines, code = git(root, { "show", base_of(root) .. ":" .. path })
   return code == 0 and lines or nil
 end
@@ -233,7 +287,7 @@ end
 ---@field add integer
 ---@field del integer
 
----Parse `git diff HEAD` into per-file side-by-side aligned hunks, then append
+---Parse the base diff into per-file side-by-side aligned hunks, then append
 ---untracked files (all-additions). Matches the oil list's file set.
 ---@param root string
 ---@return diffview.FileDiff[]

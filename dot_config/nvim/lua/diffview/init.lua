@@ -33,7 +33,7 @@ local function pair_for_cursor_entry()
 
   -- entry.name is display-only (:tcd-relative); use meta.git.path for reads.
   local path = (entry.meta and entry.meta.git and entry.meta.git.path) or entry.name
-  local left = git.head_lines(root, path)
+  local left = git.base_lines(root, path)
   local right = git.worktree_lines(root, path)
   local left_name = string.format("oil-diff://%s [base]", path)
   local right_name = string.format("%s/%s", root, path)
@@ -170,7 +170,9 @@ function M.open(opts)
   else
     git.set_base(root, "HEAD")
   end
-  git.invalidate()
+  -- Own tab: the whole view lives here, and :q on any pane closes the tab.
+  vim.cmd("tabnew")
+  vim.t.diffview = true
   ui.open_skeleton()
   local list_win = vim.api.nvim_get_current_win()
 
@@ -287,6 +289,23 @@ function M.setup(opts)
     callback = function(ev)
       if is_diff_buffer(ev.buf) then
         M.stop_live_preview(ev.buf)
+      end
+    end,
+  })
+
+  -- :q on any pane of a diffview tab closes the whole tab, not just the window.
+  vim.api.nvim_create_autocmd("QuitPre", {
+    group = group,
+    callback = function()
+      if not vim.t.diffview then
+        return
+      end
+      -- More than one tab: close this one (this supersedes the pending :q,
+      -- which would otherwise close a single window). One tab: let :q proceed.
+      if vim.fn.tabpagenr("$") > 1 then
+        vim.schedule(function()
+          pcall(vim.cmd, "tabclose")
+        end)
       end
     end,
   })

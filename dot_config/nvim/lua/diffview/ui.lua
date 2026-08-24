@@ -240,7 +240,7 @@ local function build_buffers(pair)
   if pair.files then
     local lc, lh, lf, lr = combined_side(pair.files, "left")
     local rc, rh, rf, rr, rmap = combined_side(pair.files, "right")
-    local left = make_scratch(lc, "git diff [HEAD]", nil)
+    local left = make_scratch(lc, "git diff [base]", nil)
     local right = make_scratch(rc, "git diff [working]", nil)
     syntax_combined(left, lr)
     syntax_combined(right, rr)
