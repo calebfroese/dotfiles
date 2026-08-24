@@ -57,7 +57,7 @@ local function base_candidates(root, branch)
   if branch then
     return { branch }
   end
-  return { "main", "master" }
+  return { "origin/main", "origin/master", "main", "master" }
 end
 
 ---Merge-base of HEAD and the local branch it forked from — where this branch's
