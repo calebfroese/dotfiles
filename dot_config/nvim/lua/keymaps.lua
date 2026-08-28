@@ -66,3 +66,4 @@ vim.keymap.set("n", "<leader>sr", "<cmd>FzfLua oldfiles<cr>", { desc = "File (re
 vim.keymap.set("n", "<leader>sx", "<cmd>FzfLua diagnostics_document<cr>", { desc = "Diagnostics (buffer)" })
 vim.keymap.set("n", "<leader>sX", "<cmd>FzfLua diagnostics_workspace<cr>", { desc = "Diagnostics (cwd)" })
 vim.keymap.set("n", "<leader>sl", "<cmd>FzfLua lsp_references<cr>", { desc = "References" })
+vim.keymap.set("n", "<leader>sS", "<cmd>SourcegraphSearch<cr>", { desc = "Search Sourcegraph" })
