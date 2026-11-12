@@ -60,7 +60,9 @@ function _G.custom_tablabel()
     if i == vim.fn.tabpagenr() then
       s = s .. '%#TabLineSel#'
     else
-      s = s .. '%#TabLine#'
+      -- hubcockpit sets hub_needs_you on a session tab that waits for me.
+      local nok, needs = pcall(vim.api.nvim_tabpage_get_var, tab, 'hub_needs_you')
+      s = s .. ((nok and needs == 1) and '%#TabLineNeeds#' or '%#TabLine#')
     end
     s = s .. ' ' .. label .. ' '
   end
@@ -103,6 +105,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     -- Style active tab orange
     vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#ffffff', bg = '#ff8000', bold = true })
     vim.api.nvim_set_hl(0, 'TabLine', { fg = '#ffffff', bg = '#3c3c3c' })
+    vim.api.nvim_set_hl(0, 'TabLineNeeds', { fg = '#ff8000', bg = '#3c3c3c', bold = true })
     vim.api.nvim_set_hl(0, 'TabLineFill', { bg = '#1c1c1c' })
   end,
 })
